@@ -37,6 +37,7 @@ char	*ft_findtype(mode_t st_mode, char *mode)
 		mode[0] = 'd';
 	else if (oct[len] == 6 && oct[len - 1] == 0)
 		mode[0] = 'b';
+	free(oct);
 	return (mode);
 }
 
@@ -67,31 +68,39 @@ char	*ft_findmode(mode_t st_mode)
 		tmp--;
 	}
 	ft_findtype(st_mode, mode);
+	free(binary);
 	return (mode);
 }
 
-t_stat  *ft_create_stat(struct dirent *file)
+t_stat  *ft_create_stat(struct dirent *file, const char *path)
 {
     t_stat          *return_stat;
+    time_t          time_tmp;
     struct stat     *current_stat;
     struct group    *current_group;
     struct passwd   *current_user;
 
-
     if (!(current_stat = (struct stat *)malloc(sizeof(struct stat))))
         return (NULL);
-    if (!(return_stat = (struct t_stat *)malloc(sizeof(t_stat))))
+    if (!(return_stat = (t_stat *)malloc(sizeof(t_stat))))
         return (NULL);
-	if ((lstat(current_stat->d_name, current_stat)))
+
+	if ((lstat(path, current_stat)))
 	{
 		ft_putendl("Error when using stat() ;");
 		return (0);
 	}
     current_group = getgrgid(current_stat->st_gid);
+    return_stat->group = ft_strdup(current_group->gr_name);
     current_user = getpwuid(current_stat->st_uid);
+    return_stat->user = ft_strdup(current_user->pw_name);
+    return_stat->nlink = current_stat->st_nlink;
+    return_stat->name = ft_strdup(file->d_name);
     return_stat->mode = ft_findmode(current_stat->st_mode);
-    return_stat->time = ft_strsub(ctime
-        (time(&current_stat->st_atimespec.tv_sec)), 4, 12);
-    return_stat->all_stat = current_stat;
-    return (return_stat);
+	time_tmp = time(&current_stat->st_atimespec.tv_sec);
+    return_stat->time = ft_strsub(ctime(&time_tmp), 4, 12);
+	//free(current_user);
+	//free(current_group);
+	free(current_stat);
+	return (return_stat);
 }

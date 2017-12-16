@@ -83,7 +83,7 @@ char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 unsigned int		ft_count_words(char const *s, char c);
 unsigned int		ft_wordlen(char const *s, char c);
-
+void          		ft_swapstr(char **s1, char **s2);
 /*
 **	INT FUNCTIONS
 */

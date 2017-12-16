@@ -12,6 +12,18 @@
 
 #include "./includes/ft_ls.h"
 
+void ft_sortargv(int argc, char **argv, int i)
+{
+	while (i < argc - 1)
+	{
+		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
+		{
+			ft_swapstr(&argv[i], &argv[i + 1]);
+			i = 1;
+		}
+		i++;
+	}
+}
 int		main(int argc, char **argv)
 {
 		t_opt	*opt;
@@ -19,17 +31,26 @@ int		main(int argc, char **argv)
 
 		i = 1;
 		opt = ft_opt(argc, argv, &i);
+			//	printf("opt_l = %d\nopt_r = %d\nopt_a = %d\nopt_R = %d\nopt_t = %d\n",
+				//opt->opt_l, opt->opt_r, opt->opt_a, opt->opt_R, opt->opt_t);
 		if (argc == 1)
 					ft_ls(opt, ".");
 		else
 		{
+			ft_sortargv(argc, argv, i);
 			while (i < argc)
 			{
-				ft_ls(opt, argv[i])
+				if (i != argc - 1)
+				{
+					ft_putstr(argv[i]);
+					ft_putstr(":\n");
+				}
+				ft_ls(opt, argv[i]);
+				if (i != argc - 1)
+					ft_putchar('\n');
 				i++;
 			}
 		}
-		//		printf("opt_l = %d\nopt_r = %d\nopt_a = %d\nopt_R = %d\nopt_t = %d\n",
-			//	opt->opt_l, opt->opt_r, opt->opt_a, opt->opt_R, opt->opt_t);
+		free(opt);
 	return (0);
 }

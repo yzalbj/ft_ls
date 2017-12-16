@@ -2,7 +2,7 @@ NAME = libft.a
 
 FLAGS = -Wall -Werror -Wextra -g
 
-SRC = ft_atoi.c ft_dectobin.c ft_dectooct.c\
+SRC = ft_atoi.c ft_dectobin.c ft_dectooct.c ft_swapstr.c\
 		  ft_isalpha.c \
 		  ft_bzero.c \
 		  ft_isalnum.c \

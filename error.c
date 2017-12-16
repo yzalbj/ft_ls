@@ -12,7 +12,7 @@
 
 #include "./includes/ft_ls.h"
 
-void	ft_error(int err, t_node **tree)
+void	ft_error(int err)
 {
 	if (err == FALSE_OPT)
 		ft_putendl_fd("usage: ft_ls [-Ralrt] [file ...]", 2);

@@ -4,7 +4,7 @@ FLAGS = -Wall -Wextra -Werror -g
 
 
 
-SRC = main.c error.c option.c
+SRC = main.c error.c option.c ls.c tree.c stat.c display.c printtree.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -48,15 +48,28 @@ void ft_isvalid_opt(char **argv, int i, int j)
 	}
 }
 
+t_opt	*ft_createopt(void)
+{
+	t_opt	*opt;
+
+	opt = (t_opt *)malloc(sizeof(t_opt));
+	opt->opt_l = 0;
+	opt->opt_r = 0;
+	opt->opt_a = 0;
+	opt->opt_R = 0;
+	opt->opt_t = 0;
+	return (opt);
+}
+
 t_opt	*ft_opt(int argc, char **argv, int *i)
 {
 	int		j;
 	t_opt	*opt;
 
 	opt = NULL;
+	opt = ft_createopt();
 	if (argc > 1)
 	{
-		opt = (t_opt *)malloc(sizeof(t_opt));
 		while (*i < argc && argv[*i][0] == '-')
 		{
 			j = 1;
