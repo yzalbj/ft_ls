@@ -90,7 +90,7 @@ void          		ft_swapstr(char **s1, char **s2);
 
 int					*ft_dectobin(int nb);
 int					*ft_dectooct(int nb);
-
+char				ft_intlen(unsigned int nb);
 /*
 ** MEMORY FUNCTIONS
 */

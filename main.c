@@ -28,24 +28,26 @@ int		main(int argc, char **argv)
 {
 		t_opt	*opt;
 		int		i;
+		int		tmp;
 
 		i = 1;
 		opt = ft_opt(argc, argv, &i);
 			//	printf("opt_l = %d\nopt_r = %d\nopt_a = %d\nopt_R = %d\nopt_t = %d\n",
 				//opt->opt_l, opt->opt_r, opt->opt_a, opt->opt_R, opt->opt_t);
-		if (argc == 1)
+		if (argc == i)
 					ft_ls(opt, ".");
 		else
 		{
 			ft_sortargv(argc, argv, i);
+			tmp = i;
 			while (i < argc)
 			{
-				if (i != argc - 1)
+				if (tmp != argc - 1)
 				{
 					ft_putstr(argv[i]);
 					ft_putstr(":\n");
 				}
-				ft_ls(opt, argv[i]);
+				ft_ls(opt, ft_strdup(argv[i]));
 				if (i != argc - 1)
 					ft_putchar('\n');
 				i++;
