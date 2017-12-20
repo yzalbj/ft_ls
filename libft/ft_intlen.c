@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wordlen.c                                       :+:      :+:    :+:   */
+/*   ft_intlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 14:22:02 by jblazy            #+#    #+#             */
-/*   Updated: 2017/11/15 15:59:48 by jblazy           ###   ########.fr       */
+/*   Created: 2017/12/18 11:35:32 by jblazy            #+#    #+#             */
+/*   Updated: 2017/12/18 11:35:35 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-unsigned int	ft_wordlen(char const *s, char c)
+char  ft_intlen(unsigned int nb)
 {
-	unsigned int	len;
+    char len;
 
-	len = 0;
-	while (s && s[len] && s[len] != c)
-		len++;
-	return (len);
+    len = 1;
+    if (!nb)
+        return (len);
+    while ((nb = nb / 10) != 0)
+        len++;
+    return (len);
 }

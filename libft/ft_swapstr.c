@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wordlen.c                                       :+:      :+:    :+:   */
+/*   ft_swapstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 14:22:02 by jblazy            #+#    #+#             */
-/*   Updated: 2017/11/15 15:59:48 by jblazy           ###   ########.fr       */
+/*   Created: 2017/12/15 16:56:10 by jblazy            #+#    #+#             */
+/*   Updated: 2017/12/15 16:56:12 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-unsigned int	ft_wordlen(char const *s, char c)
+void ft_swapstr(char **s1, char **s2)
 {
-	unsigned int	len;
+    char    *tmp;
 
-	len = 0;
-	while (s && s[len] && s[len] != c)
-		len++;
-	return (len);
+    tmp = *s1;
+    *s1 = *s2;
+    *s2 = tmp;
 }

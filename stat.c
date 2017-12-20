@@ -12,52 +12,6 @@
 
 #include "./includes/ft_ls.h"
 
-// char	*ft_findtype(mode_t st_mode, char *mode, char sticky_bit)
-// {
-// 	int		len;
-// 	int		*oct;
-//
-// 	len = 0;
-// 	oct = ft_dectooct(st_mode);
-// 	ft_putstr("oct == ");
-// 	while (oct[len] != -1)
-// 	{
-// 		ft_putnbr(oct[len]);
-// 		len++;
-// 	}
-// 	ft_putchar('\n');
-// 	len = 0;
-// 	sticky_bit = 0;
-// 	if (st_mode & S_IRGRP)
-// 	{
-// 		ft_putendl("group read");
-// 	}
-// 	// while (oct[len + 1] != -1)
-// 	// 	len++;
-// 	// if (len == 5 && oct[len] == 1 && oct[len - 1] == 0 && oct[len - 2] == 0)
-// 	// 	mode[0] = '-';
-// 	// else if (oct[len] == 1 && oct[len - 1] == 2 && oct[len - 2] == 0)
-// 	// 	mode[0] = 'l';
-// 	// else if (oct[len] == 1 && oct[len - 1] == 4 && oct[len - 2] == 0)
-// 	// 	mode[0] = 's';
-// 	// else if (oct[len] == 1 && oct[len - 1] == 6 && oct[len - 2] == 0)
-// 	// 	mode[0] = 'w';
-// 	// // if (oct[len - 2] == 1)
-// 	// // 	mode[9] = 't';
-// 	// else if (oct[len] == 1 && oct[len - 1] == 0)
-// 	// 	mode[0] = 'p';
-// 	// else if (oct[len] == 2 && oct[len - 1] == 0)
-// 	// 	mode[0] = 'c';
-// 	// else if (oct[len] == 4 && (oct[len - 1] == 0 || sticky_bit))
-// 	// 	mode[0] = 'd';
-// 	// else if (oct[len] == 6 && oct[len - 1] == 0)
-// 	// 	mode[0] = 'b';
-// 	// if (oct[len - 1] == 1)
-// 	// 	mode[9] = 't';
-// 	free(oct);
-// 	return (mode);
-// }
-
 char	*ft_findmode(mode_t st_mode)
 {
 	char	*mode;
@@ -127,7 +81,7 @@ t_stat  *ft_create_stat(struct dirent *file, char *path, t_opt *opt)
         return (NULL);
     if (!(return_stat = (t_stat *)malloc(sizeof(t_stat))))
         return (NULL);
-	printf("path stat = %s\n", path);
+	// printf("path stat = %s\n", path);
 	if ((lstat(path, current_stat)))
 	{
 		return (NULL);
@@ -150,12 +104,19 @@ t_stat  *ft_create_stat(struct dirent *file, char *path, t_opt *opt)
 	if (opt->opt_l)
 	{
 		return_stat->nlink = current_stat->st_nlink;
-		return_stat->size = current_stat->st_size;
+		// return_stat->size = current_stat->st_size;
 		ft_spaceafteruser(return_stat->user, 0);
 		ft_spaceaftergroup(return_stat->group, 0);
+		if (return_stat->mode[0] == 'c' || return_stat->mode[0] == 'b')
+		{
+			return_stat->size[0] = major(current_stat->st_rdev);
+			return_stat->size[1] = minor(current_stat->st_rdev);
+		}
+		else
+			return_stat->size[0] = current_stat->st_size;
 		ft_calc_blocks(current_stat->st_blocks, 0);
 		ft_spacebeforenlink(return_stat->nlink, 0);
-		ft_spacebeforenbytes(return_stat->size, 0);
+		ft_spacebeforenbytes(return_stat->size[0], 0);
 		if (return_stat->mode[0] == 'l')
 		{
 			return_stat->readlink = ft_strnew(4095);

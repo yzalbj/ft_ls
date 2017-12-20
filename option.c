@@ -33,7 +33,7 @@ void ft_initopt(t_opt **opt, char **argv, int i, int *j)
 	}
 }
 
-void ft_isvalid_opt(char **argv, int i, int j)
+int	ft_isvalid_opt(char **argv, int i, int j)
 {
 	if (argv[i][j] != 'l' && argv[i][j] != 'r' && argv[i][j] != 'a' &&
 			argv[i][j] != 'R' && argv[i][j] != 't' && argv[i][j] != '\0'
@@ -48,7 +48,9 @@ void ft_isvalid_opt(char **argv, int i, int j)
 			ft_putchar_fd(' ', 2);
 		ft_putchar_fd('\n', 2);
 		ft_error(FALSE_OPT, NULL, NULL);
+		return (-1);
 	}
+	return (1);
 }
 
 t_opt	*ft_createopt(void)
@@ -78,9 +80,11 @@ t_opt	*ft_opt(int argc, char **argv, int *i)
 		{
 			j = 1;
 			ft_initopt(&opt, argv, *i, &j);
-			ft_isvalid_opt(argv, *i, j);
+			if (ft_isvalid_opt(argv, *i, j) == -1)
+				return (NULL);
 			(*i)++;
 		}
+		opt->opt_nb = *i;
 	}
 	return (opt);
 }

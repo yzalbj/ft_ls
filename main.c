@@ -29,30 +29,36 @@ int		main(int argc, char **argv)
 		t_opt	*opt;
 		int		i;
 		int		tmp;
+		int		tmp2;
 
 		i = 1;
 		opt = ft_opt(argc, argv, &i);
-			//	printf("opt_l = %d\nopt_r = %d\nopt_a = %d\nopt_R = %d\nopt_t = %d\n",
-				//opt->opt_l, opt->opt_r, opt->opt_a, opt->opt_R, opt->opt_t);
+				// printf("opt_l = %d\nopt_r = %d\nopt_a = %d\nopt_R = %d\nopt_t = %d\n",
+				// opt->opt_l, opt->opt_r, opt->opt_a, opt->opt_R, opt->opt_t);
+		if (opt)
+		{
 		if (argc == i)
-					ft_ls(opt, ".");
+					ft_ls(opt, ".", argc);
 		else
 		{
 			ft_sortargv(argc, argv, i);
 			tmp = i;
+			tmp2 = argc;
 			while (i < argc)
 			{
-				if (tmp != argc - 1)
-				{
-					ft_putstr(argv[i]);
-					ft_putstr(":\n");
-				}
-				ft_ls(opt, ft_strdup(argv[i]));
-				if (i != argc - 1)
-					ft_putchar('\n');
+				// if (tmp != argc - 1)
+				// {
+				// 	ft_putstr(argv[i]);
+				// 	ft_putstr(":\n");
+				// }
+				// printf("i == %d\n", i);
+				ft_ls(opt, ft_strdup(argv[i]), argc);
+				// if (i != argc - 1)
+				// 	ft_putchar('\n');
 				i++;
 			}
 		}
 		free(opt);
+	}
 	return (0);
 }

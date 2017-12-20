@@ -12,14 +12,32 @@
 
 #include "./includes/ft_ls.h"
 
-void ft_display_file(t_opt *opt, t_stat *stat)
+void ft_display_time(t_opt *opt, t_stat *stat)
+{
+    char *copy_time;
+    time_t current;
+
+    if (!opt->opt_T)
+    {
+        if (stat->epoch > time(&current) - 15780000)
+            ft_putstr(ft_strsub(stat->time, 0, 12));
+        else
+        {
+            // c cheum
+            copy_time = ft_strndup(stat->time, 6);
+            ft_putstr(copy_time);
+            ft_putstr("  ");
+            ft_putstr(ft_strsub(stat->time, 16, 4));
+        }
+    }
+    else
+        ft_putstr(stat->time);
+}
+
+void ft_displaylong(t_opt *opt, t_stat *stat)
 {
     char    space;
-    time_t  current;
-    char    *copy_time;
 
-    if (opt->opt_l)
-    {
         space = ft_spacebeforenlink(1, 0) + 2 - ft_intlen(stat->nlink);
         ft_putstr(stat->mode);
         while (space--)
@@ -35,32 +53,27 @@ void ft_display_file(t_opt *opt, t_stat *stat)
         while (space--)
             ft_putstr(" ");
     //espace entre group et size pas bon --> ./ft_ls -l /dev
-       space = ft_spacebeforenbytes(1, 0) + 2 - ft_intlen(stat->size);
+       space = ft_spacebeforenbytes(1, 0) + 2 - ft_intlen(stat->size[0]);
        while (space--)
            ft_putstr(" ");
-        ft_putnbr(stat->size);
+		if (stat->mode[0] == 'c' || stat->mode[0] == 'b')
+		{
+			ft_putnbr(stat->size[0]);
+			ft_putstr(",   ");
+			ft_putnbr(stat->size[1]);
+		}
+		else
+        	ft_putnbr(stat->size[0]);
         ft_putstr(" ");
-        if (!opt->opt_T)
-            // ft_putstr(ft_strsub(stat->time, 0, 12));
-        {
-            if (stat->epoch > time(&current) - 15780000)
-                ft_putstr(ft_strsub(stat->time, 0, 12));
-            else
-            {
-                // ft_putendl(stat->time);
-                // c cheum
-                copy_time = ft_strndup(stat->time, 6);
-                ft_putstr(copy_time);
-                ft_putstr("  ");
-                ft_putstr(ft_strsub(stat->time, 16, 4));
-            }
-        }
-        else
-            ft_putstr(stat->time);
-        // ft_putstr(ctime((&stat->time)));
+        ft_display_time(opt, stat);
         ft_putstr(" ");
-    }
-        ft_putstr(stat->name);
+}
+
+void ft_display_file(t_opt *opt, t_stat *stat)
+{
+    if (opt->opt_l)
+        ft_displaylong(opt, stat);
+    ft_putstr(stat->name);
     if (stat->mode[0] == 'l' && opt->opt_l)
     {
         ft_putstr(" -> ");
@@ -68,6 +81,7 @@ void ft_display_file(t_opt *opt, t_stat *stat)
     }
     ft_putchar('\n');
 }
+
 void ft_display_tree(t_node *tree, t_opt *opt)
 {
     if (!tree)

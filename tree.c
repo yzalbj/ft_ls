@@ -58,22 +58,17 @@
 //
 // }
 
-void    ft_recursivels(t_node *tree, t_opt *opt, char *path)
+void    ft_recursivels(t_node *tree, t_opt *opt, char *path, int argc)
 {
     if (tree && tree->left)
-        ft_recursivels(tree->left, opt, path);
+        ft_recursivels(tree->left, opt, path, argc);
     if (tree && tree->stat->mode[0] == 'd' && ft_strcmp(tree->stat->name, ".")
             && ft_strcmp(tree->stat->name, ".."))
             {
-                ft_putchar('\n');
-                // path = (ft_createpath(path, tree->stat->name));
-                ft_putstr(ft_createpath(path, tree->stat->name));
-                // ft_putstr(path);
-                ft_putstr(":\n");
-                ft_ls(opt, ft_createpath(path, tree->stat->name));
+                ft_ls(opt, ft_createpath(path, tree->stat->name), --argc);
             }
     if (tree && tree->right)
-        ft_recursivels(tree->right, opt, path);
+        ft_recursivels(tree->right, opt, path, argc);
 }
 
 void ft_place_node(t_node **root, t_node *node, t_opt *opt)

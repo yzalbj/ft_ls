@@ -14,21 +14,28 @@
 
 void	ft_error(int err, char *path, t_opt *opt)
 {
+	t_stat	*stat;
+
 	if (err == FALSE_OPT)
 		ft_putendl_fd("usage: ft_ls [-RTalrt] [file ...]", 2);
 	if (errno == EACCES)
     {
         ft_putstr("ft_ls: ");
-        ft_putstr(path);
-        ft_putendl(": Permission denied");
+        ft_putstr(ft_lastfile(path));
+        ft_putendl(": Permission denied\n");
     }
     else if (errno == ENOTDIR)
-        ft_display_file(opt, ft_create_stat(NULL, path, opt));
+	{
+		stat = ft_create_stat(NULL, path, opt);
+		if (stat->mode[0] == 'd')
+			//skip les dossiers pour faire que les fichiers puis les dossier quand on fait un ls -l *
+        ft_display_file(opt, stat);
+	}
     else if (errno == ENOENT)
     {
-        ft_putstr("ls: ");
+        ft_putstr("ft_ls: ");
         ft_putstr(path);
        ft_putendl(": No such file or directory");
     }
-	// exit (1);
+	errno = 0;
 }
