@@ -2,10 +2,8 @@ NAME = ft_ls
 
 FLAGS = -Wall -Wextra -Werror -g
 
-
-
 SRC = main.c error.c option.c ls.c tree.c stat.c display.c printtree.c \
-		calc_space.c
+		calc_space.c path.c free.c
 
 OBJ = $(SRC:.c=.o)
 

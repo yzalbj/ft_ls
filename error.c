@@ -12,30 +12,41 @@
 
 #include "./includes/ft_ls.h"
 
-void	ft_error(int err, char *path, t_opt *opt)
+// void ft_tree_single_file(char *path, t_opt *opt, int flag)
+// {
+// 	if (flag == 0)
+// }
+t_node *ft_error2(t_path *path, t_opt *opt)
 {
-	t_stat	*stat;
+	t_node	*node_file;
 
+	if (errno == ENOTDIR && path->dir_or_file == FILE)
+	{
+		node_file = ft_create_node(NULL, CURRENT_PATH, opt);
+		return (node_file);
+	}
+    else if (errno == ENOENT && path->dir_or_file == ERROR)
+    {
+        ft_putstr("ft_ls: ");
+        ft_putstr(CURRENT_PATH);
+       ft_putendl(": No such file or directory");
+    }
+	return (NULL);
+}
+
+void	ft_error(int err, t_path *path, t_opt *opt)
+{
 	if (err == FALSE_OPT)
 		ft_putendl_fd("usage: ft_ls [-RTalrt] [file ...]", 2);
 	if (errno == EACCES)
     {
         ft_putstr("ft_ls: ");
-        ft_putstr(ft_lastfile(path));
-        ft_putendl(": Permission denied\n");
+		if (PATH_TMP)
+			ft_putstr(ft_lastfile(PATH_TMP));
+		else
+        	ft_putstr(ft_lastfile(CURRENT_PATH));
+        ft_putendl(": Permission denied");
     }
-    else if (errno == ENOTDIR)
-	{
-		stat = ft_create_stat(NULL, path, opt);
-		if (stat->mode[0] == 'd')
-			//skip les dossiers pour faire que les fichiers puis les dossier quand on fait un ls -l *
-        ft_display_file(opt, stat);
-	}
-    else if (errno == ENOENT)
-    {
-        ft_putstr("ft_ls: ");
-        ft_putstr(path);
-       ft_putendl(": No such file or directory");
-    }
+    ft_error2(path, opt);
 	errno = 0;
 }

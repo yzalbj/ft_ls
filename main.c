@@ -12,11 +12,16 @@
 
 #include "./includes/ft_ls.h"
 
-void ft_sortargv(int argc, char **argv, int i)
+void ft_sortargv(int argc, char **argv, int i, t_opt *opt)
 {
 	while (i < argc - 1)
 	{
-		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
+		if (opt->opt_r && ft_strcmp(argv[i], argv[i + 1]) < 0)
+		{
+			ft_swapstr(&argv[i], &argv[i + 1]);
+			i = 1;
+		}
+		else if (!opt->opt_r && ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			ft_swapstr(&argv[i], &argv[i + 1]);
 			i = 1;
@@ -24,41 +29,57 @@ void ft_sortargv(int argc, char **argv, int i)
 		i++;
 	}
 }
+
+void ft_start_ls(t_opt *opt, t_path *path, int argc)
+{
+	if (argc == opt->opt_nb)
+	{
+		path->dir_or_file = DIRECTORY;
+		ft_ls(opt, path);
+	}
+	else
+	{
+		path->dir_or_file = ERROR;
+		while (path->index < argc - opt->opt_nb)
+		{
+			ft_ls(opt, path);
+			path->index++;
+		}
+		path->index = 0;
+		path->dir_or_file = FILE;
+		ft_lsfile(opt, path);
+		path->dir_or_file = DIRECTORY;
+		path->index = 0;
+		while (path->index < argc - opt->opt_nb)
+		{
+			ft_ls(opt, path);
+			path->index++;
+		}
+	}
+}
+
 int		main(int argc, char **argv)
 {
 		t_opt	*opt;
+		t_path	*path;
+		// t_node	*root;
 		int		i;
-		int		tmp;
-		int		tmp2;
 
 		i = 1;
 		opt = ft_opt(argc, argv, &i);
 				// printf("opt_l = %d\nopt_r = %d\nopt_a = %d\nopt_R = %d\nopt_t = %d\n",
 				// opt->opt_l, opt->opt_r, opt->opt_a, opt->opt_R, opt->opt_t);
+				// printf("i == %d\nargc == %d\n",i, argc );
 		if (opt)
 		{
-		if (argc == i)
-					ft_ls(opt, ".", argc);
-		else
-		{
-			ft_sortargv(argc, argv, i);
-			tmp = i;
-			tmp2 = argc;
-			while (i < argc)
+			ft_sortargv(argc, argv, i, opt);
+			path = ft_createpath(argv, argc, i);
+	 		if (path)
 			{
-				// if (tmp != argc - 1)
-				// {
-				// 	ft_putstr(argv[i]);
-				// 	ft_putstr(":\n");
-				// }
-				// printf("i == %d\n", i);
-				ft_ls(opt, ft_strdup(argv[i]), argc);
-				// if (i != argc - 1)
-				// 	ft_putchar('\n');
-				i++;
+				ft_start_ls(opt, path, argc);
+				free(opt);
 			}
 		}
-		free(opt);
-	}
+	exit(0);
 	return (0);
 }

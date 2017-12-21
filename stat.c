@@ -89,22 +89,20 @@ t_stat  *ft_create_stat(struct dirent *file, char *path, t_opt *opt)
 		printf("with this path -> %s\n", path);
 		exit (0);
 	}
-    current_group = getgrgid(current_stat->st_gid);
-    return_stat->group = ft_strdup(current_group->gr_name);
-    current_user = getpwuid(current_stat->st_uid);
-    return_stat->user = ft_strdup(current_user->pw_name);
 	return_stat->epoch = current_stat->st_mtimespec.tv_sec;
 	if (file)
 		return_stat->name = ft_strdup(file->d_name);
 	else
-		return_stat->name = path;
-	// printf("name = %s\n", return_stat->name);
+		return_stat->name = ft_strdup(path);
 	return_stat->mode = ft_findmode(current_stat->st_mode);
-	return_stat->time = ft_strsub(ctime(&(current_stat->st_mtimespec.tv_sec)), 4, 20);
 	if (opt->opt_l)
 	{
+		current_group = getgrgid(current_stat->st_gid);
+	    return_stat->group = ft_strdup(current_group->gr_name);
+	    current_user = getpwuid(current_stat->st_uid);
+	    return_stat->user = ft_strdup(current_user->pw_name);
 		return_stat->nlink = current_stat->st_nlink;
-		// return_stat->size = current_stat->st_size;
+		return_stat->time = ft_strsub(ctime(&(current_stat->st_mtimespec.tv_sec)), 4, 20);
 		ft_spaceafteruser(return_stat->user, 0);
 		ft_spaceaftergroup(return_stat->group, 0);
 		if (return_stat->mode[0] == 'c' || return_stat->mode[0] == 'b')
@@ -123,8 +121,8 @@ t_stat  *ft_create_stat(struct dirent *file, char *path, t_opt *opt)
 			readlink(path, return_stat->readlink, 4095);
 		}
 	}
-	//free(current_user);
-	//free(current_group);
+	// free(current_user);
+	// free(current_group);
 	free(current_stat);
 	return (return_stat);
 }

@@ -24,6 +24,20 @@
 # include <errno.h>
 
 # define FALSE_OPT -1
+# define FILE 1
+# define DIRECTORY 2
+# define ERROR 0
+# define CURRENT_PATH path->all_path[path->index]
+# define PATH_TMP path->path_tmp
+
+typedef struct	s_path
+{
+	char	**all_path;
+	char	*path_tmp;
+	int		index;
+	int		argc;
+	char	dir_or_file;
+}				t_path;
 
 typedef	struct	s_opt
 {
@@ -59,11 +73,19 @@ typedef	struct	s_node
 
 
 void print2D(t_node *root);
+void ft_free_tree(t_node *root, t_opt *opt);
+/*
+**	PATH.C
+*/
+
+t_path	*ft_createpath(char **argv, int argc, int i);
+
 /*
 **	ERROR.C
 */
 
-void	ft_error(int err, char *path, t_opt *opt);
+void	ft_error(int err, t_path *path, t_opt *opt);
+t_node	*ft_error2(t_path *path, t_opt *opt);
 
 /*
 **	OPTION.C
@@ -91,8 +113,9 @@ int     ft_spaceaftergroup(char  *group, int reset);
 **	LS.C
 */
 
-void ft_ls(t_opt *opt, char *path, int argc);
-char *ft_createpath(char *path, char *to_add);
+t_node *ft_ls(t_opt *opt, t_path *path);
+void ft_lsfile(t_opt *opt, t_path *path);
+char *ft_addpath(char *path, char *to_add);
 char *ft_removeslash(char *path);
 char *ft_lastfile(char * path);
 /*
@@ -101,7 +124,7 @@ char *ft_lastfile(char * path);
 
 t_node	*ft_create_node(struct dirent *file, char *path, t_opt *opt);
 void ft_place_node(t_node **root, t_node *node, t_opt *opt);
-void ft_recursivels(t_node *tree, t_opt *opt, char *path, int argc);
+void ft_recursivels(t_node *tree, t_opt *opt, t_path *path);
 
 /*
 **	DISPLAY.c
