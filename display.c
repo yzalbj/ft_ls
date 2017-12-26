@@ -19,7 +19,8 @@ void ft_display_time(t_opt *opt, t_stat *stat)
 
     if (!opt->opt_T)
     {
-        if (stat->epoch > time(&current) - 15780000)
+        if (stat->epoch_sec > time(&current) - 15780000 &&
+			stat->epoch_sec <= time(&current))
             ft_putstr(ft_strsub(stat->time, 0, 12));
         else
         {
@@ -49,11 +50,11 @@ void ft_displaylong(t_opt *opt, t_stat *stat)
         while (space--)
             ft_putstr(" ");
         ft_putstr(stat->group);
-        space = ft_spaceaftergroup("", 0) - ft_strlen(stat->group);
+        space = ft_spaceaftergroup("", 0) + 2- ft_strlen(stat->group);
         while (space--)
             ft_putstr(" ");
     //espace entre group et size pas bon --> ./ft_ls -l /dev
-       space = ft_spacebeforenbytes(1, 0) + 2 - ft_intlen(stat->size[0]);
+       space = ft_spacebeforenbytes(1, 0) - ft_intlen(stat->size[0]);
        while (space--)
            ft_putstr(" ");
 		if (stat->mode[0] == 'c' || stat->mode[0] == 'b')
@@ -74,6 +75,7 @@ void ft_display_file(t_opt *opt, t_stat *stat)
     if (opt->opt_l)
         ft_displaylong(opt, stat);
     ft_putstr(stat->name);
+	// printf(" --> epoch == %ld\n", stat->epoch);
     if (stat->mode[0] == 'l' && opt->opt_l)
     {
         ft_putstr(" -> ");

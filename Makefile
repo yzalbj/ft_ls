@@ -1,9 +1,9 @@
 NAME = ft_ls
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -ggdb -Wall -Wextra -Werror
 
 SRC = main.c error.c option.c ls.c tree.c stat.c display.c printtree.c \
-		calc_space.c path.c free.c
+		calc_space.c path.c free.c utils.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -16,7 +16,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C libft
-	gcc $(OBJ) -o $(NAME) -I./includes -L libft -lft
+	gcc -g $(OBJ) -o $(NAME) -I./includes -L libft -lft
 	@echo "FT_LS COMPILED"
 
 clean:

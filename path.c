@@ -20,12 +20,14 @@ t_path	*ft_createpath(char **argv, int argc, int i)
 
 	j = 0;
 	size = (i == argc) ? 1 : argc - i;
+	// printf("size == %d\ni == %d\nargc == %d\n", size, i, argc);
 	if (!(path = (t_path *)malloc(sizeof(t_path))))
 		return (NULL);
 	if (!(path->all_path = (char **)malloc(sizeof(char *) * (size + 1))))
 		return (NULL);
 	path->argc = argc;
 	path->index = 0;
+	path->sub_index = 0;
 	if (i == argc)
 	{
 		path->all_path[j] = ft_strdup(".");
@@ -38,5 +40,9 @@ t_path	*ft_createpath(char **argv, int argc, int i)
 		j++;
 	}
 	path->all_path[j] = NULL;
+	PATH_TMP = NULL;
+	j = 0;
+	while(path->all_path[j])
+		ft_putendl(path->all_path[j++]);
 	return (path);
 }

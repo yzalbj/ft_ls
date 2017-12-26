@@ -12,10 +12,6 @@
 
 #include "./includes/ft_ls.h"
 
-// void ft_tree_single_file(char *path, t_opt *opt, int flag)
-// {
-// 	if (flag == 0)
-// }
 t_node *ft_error2(t_path *path, t_opt *opt)
 {
 	t_node	*node_file;
@@ -25,12 +21,12 @@ t_node *ft_error2(t_path *path, t_opt *opt)
 		node_file = ft_create_node(NULL, CURRENT_PATH, opt);
 		return (node_file);
 	}
-    else if (errno == ENOENT && path->dir_or_file == ERROR)
-    {
-        ft_putstr("ft_ls: ");
-        ft_putstr(CURRENT_PATH);
-       ft_putendl(": No such file or directory");
-    }
+	else if (errno == ENOENT && path->dir_or_file == ERROR)
+	{
+		ft_putstr_fd("ft_ls: ", 2);
+		ft_putstr_fd(CURRENT_PATH, 2);
+		ft_putendl_fd(": No such file or directory", 2);
+	}
 	return (NULL);
 }
 
@@ -38,15 +34,14 @@ void	ft_error(int err, t_path *path, t_opt *opt)
 {
 	if (err == FALSE_OPT)
 		ft_putendl_fd("usage: ft_ls [-RTalrt] [file ...]", 2);
-	if (errno == EACCES)
-    {
-        ft_putstr("ft_ls: ");
+	if (errno == EACCES && path->dir_or_file == DIRECTORY)
+	{
+		ft_putstr_fd("ft_ls: ", 2);
 		if (PATH_TMP)
-			ft_putstr(ft_lastfile(PATH_TMP));
+			ft_putstr_fd(ft_lastfile(PATH_TMP), 2);
 		else
-        	ft_putstr(ft_lastfile(CURRENT_PATH));
-        ft_putendl(": Permission denied");
-    }
-    ft_error2(path, opt);
-	errno = 0;
+			ft_putstr_fd(ft_lastfile(CURRENT_PATH), 2);
+		ft_putendl_fd(": Permission denied", 2);
+	}
+	ft_error2(path, opt);
 }

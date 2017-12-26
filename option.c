@@ -80,7 +80,7 @@ t_opt	*ft_opt(int argc, char **argv, int *i)
 		while (*i < argc && argv[*i][0] == '-' && argv[*i][1])
 		{
 			j = 1;
-			if (argv[*i][1] == '-')
+			if (argv[*i][1] == '-' && !argv[*i][2])
 			{
 				(*i)++;
 				break;
@@ -90,7 +90,7 @@ t_opt	*ft_opt(int argc, char **argv, int *i)
 				return (NULL);
 			(*i)++;
 		}
-		opt->opt_nb = *i;
+		opt->opt_nb = *i - 1;
 		// opt->opt_nb--;
 	}
 	return (opt);

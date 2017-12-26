@@ -52,30 +52,30 @@ int		ft_calc_blocks(int blocks, int reset)
 	return (tmp);
 }
 
-int     ft_spaceafteruser(char  *user, int reset)
+int		ft_spaceafteruser(char  *user, int reset)
 {
-    static char space;
-    char tmp;
+	static char space;
+	char tmp;
 
-    tmp = ft_strlen(user);
-    if (tmp > space)
-        space = tmp;
-    tmp = space;
-    if (reset)
-        space = 0;
-    return(tmp);
+	tmp = ft_strlen(user);
+	if (tmp > space)
+		space = tmp;
+	tmp = space;
+	if (reset)
+		space = 0;
+	return(tmp);
 }
 
-int     ft_spaceaftergroup(char  *group, int reset)
+int		ft_spaceaftergroup(char  *group, int reset)
 {
-    static char space;
-    char tmp;
+	static char space;
+	char tmp;
 
-    tmp = ft_strlen(group);
-    if (tmp > space)
-        space = tmp;
-    tmp = space;
-    if (reset)
-        space = 0;
-    return(tmp);
+	tmp = ft_strlen(group);
+	if (tmp > space)
+		space = tmp;
+	tmp = space;
+	if (reset)
+		space = 0;
+	return(tmp);
 }

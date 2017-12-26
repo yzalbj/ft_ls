@@ -35,6 +35,7 @@ typedef struct	s_path
 	char	**all_path;
 	char	*path_tmp;
 	int		index;
+	int		sub_index;
 	int		argc;
 	char	dir_or_file;
 }				t_path;
@@ -54,7 +55,8 @@ typedef	struct	s_stat
 {
 	char		*mode;
 	char		*time;
-	time_t		epoch;
+	long		epoch_sec;
+	long		epoch_nsec;
 	char		*user;
 	char		*group;
 	int			nlink;
@@ -74,6 +76,7 @@ typedef	struct	s_node
 
 void print2D(t_node *root);
 void ft_free_tree(t_node *root, t_opt *opt);
+int	ft_timecmp(t_stat *root, t_stat *node);
 /*
 **	PATH.C
 */
@@ -115,6 +118,7 @@ int     ft_spaceaftergroup(char  *group, int reset);
 
 t_node *ft_ls(t_opt *opt, t_path *path);
 void ft_lsfile(t_opt *opt, t_path *path);
+void ft_lserror(t_opt *opt, t_path *path);
 char *ft_addpath(char *path, char *to_add);
 char *ft_removeslash(char *path);
 char *ft_lastfile(char * path);
