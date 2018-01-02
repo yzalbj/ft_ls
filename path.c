@@ -41,8 +41,8 @@ t_path	*ft_createpath(char **argv, int argc, int i)
 	}
 	path->all_path[j] = NULL;
 	PATH_TMP = NULL;
-	j = 0;
-	while(path->all_path[j])
-		ft_putendl(path->all_path[j++]);
+	// j = 0;
+	// while(path->all_path[j])
+	// 	ft_putendl(path->all_path[j++]);
 	return (path);
 }

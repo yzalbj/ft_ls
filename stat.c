@@ -91,6 +91,7 @@ void stat_optl2 (char *path, t_stat *return_stat, struct stat *current_stat)
 		return_stat->size[0] = current_stat->st_size;
 	ft_calc_blocks(current_stat->st_blocks, 0);
 	ft_spacebeforenlink(return_stat->nlink, 0);
+	// ft_putendl(return_stat->name);
 	ft_spacebeforenbytes(return_stat->size[0], 0);
 	if (return_stat->mode[0] == 'l')
 	{
@@ -99,7 +100,7 @@ void stat_optl2 (char *path, t_stat *return_stat, struct stat *current_stat)
 	}
 }
 
-void stat_optl1 (char *path, t_stat *return_stat, struct stat *current_stat)
+void stat_optl1(char *path, t_stat *return_stat, struct stat *current_stat)
 {
 	struct group	*current_group;
 	struct passwd	*current_user;
@@ -109,10 +110,24 @@ void stat_optl1 (char *path, t_stat *return_stat, struct stat *current_stat)
 	current_user = getpwuid(current_stat->st_uid);
 	return_stat->user = ft_strdup(current_user->pw_name);
 	return_stat->nlink = current_stat->st_nlink;
-	return_stat->time = ft_strsub(ctime(&(current_stat->st_mtimespec.tv_sec)), 4, 20);
+	// ft_putendl(ctime(&(current_stat->st_mtimespec.tv_sec)));
+	// return_stat->time = ft_strsub(ctime(&(current_stat->st_mtimespec.tv_sec)), 4, 20);
 	ft_spaceafteruser(return_stat->user, 0);
 	ft_spaceaftergroup(return_stat->group, 0);
 	stat_optl2(path, return_stat, current_stat);
+}
+
+void stat_time(t_stat *return_stat, struct stat *current_stat)
+{
+	char **year;
+
+	year = ft_strsplit(ctime(&(current_stat->st_mtimespec.tv_sec)), ' ');
+	return_stat->year = ft_strtrim(year[4]);
+	return_stat->epoch_sec = current_stat->st_mtimespec.tv_sec;
+	return_stat->epoch_nsec = current_stat->st_mtimespec.tv_nsec;
+	return_stat->time = ft_strsub(ctime(&(current_stat->st_mtimespec.tv_sec)), 4, 16);
+	// ft_putendl(ctime(&(current_stat->st_mtimespec.tv_sec)));
+	ft_freetab(&year);
 }
 
 t_stat	*ft_create_stat(struct dirent *file, char *path, t_opt *opt)
@@ -125,15 +140,16 @@ t_stat	*ft_create_stat(struct dirent *file, char *path, t_opt *opt)
 		return (NULL);
 	if (!(return_stat = (t_stat *)malloc(sizeof(t_stat))))
 		return (NULL);
-	if ((lstat(path, current_stat)))
+	if ((lstat(path, current_stat)) == -1)
 	{
 		return (NULL);
 		ft_putendl("Error when using stat() ;");
 		printf("with this path -> %s\n", path);
 		exit (0);
 	}
-	return_stat->epoch_sec = current_stat->st_mtimespec.tv_sec;
-	return_stat->epoch_nsec = current_stat->st_mtimespec.tv_nsec;
+	// return_stat->epoch_sec = current_stat->st_mtimespec.tv_sec;
+	// return_stat->epoch_nsec = current_stat->st_mtimespec.tv_nsec;
+	stat_time(return_stat, current_stat);
 	if (file)
 		return_stat->name = ft_strdup(file->d_name);
 	else

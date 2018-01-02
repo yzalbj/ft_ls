@@ -12,6 +12,7 @@
 
 #include "./includes/ft_ls.h"
 
+// TEST 13 DE ERROR HANDLING
 void ft_sortargv(int argc, char **argv, int i, t_opt *opt)
 {
 	t_stat	*first;
@@ -59,6 +60,7 @@ void ft_start_ls(t_opt *opt, t_path *path)
 	}
 	path->index = 0;
 	path->dir_or_file = FILE;
+	// ft_putendl("file");
 	ft_lsfile(opt, path);
 	path->dir_or_file = DIRECTORY;
 	path->index = 0;
@@ -77,7 +79,7 @@ int		main(int argc, char **argv)
 
 		i = 1;
 		opt = ft_opt(argc, argv, &i);
-		if (opt)
+		if (opt != NULL)
 		{
 			ft_sortargv(argc, argv, i, opt);
 			path = ft_createpath(argv, argc, i);

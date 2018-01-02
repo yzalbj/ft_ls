@@ -36,15 +36,6 @@ char    *ft_removeslash(char *path)
     return(path);
 }
 
-void ft_issymlink(t_opt *opt, t_stat *stat)
-{
-	if (stat->mode[0] == 'l')
-	{
-		ft_display_file(opt, stat);
-		exit (1);
-	}
-}
-
 char *ft_lastfile(char *path)
 {
 	int		len;
@@ -61,8 +52,6 @@ char *ft_lastfile(char *path)
 
 void ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 {
-	static char flag;
-
 	if ((!errno || errno == EACCES) && CURRENT_PATH
 		&& path->dir_or_file == DIRECTORY && (path->argc -1 - opt->opt_nb > 1 || path->sub_index))
 	{
@@ -86,13 +75,7 @@ void ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 		path->sub_index++;
 		ft_display_tree(root, opt);
 		if (opt->opt_l)
-		{
-			ft_spaceafteruser("", 1);
-			ft_spaceaftergroup("", 1);
-			ft_spacebeforenlink(0, 1);
-			ft_spacebeforenbytes(0, 1);
-		}
-		flag = 1;
+			ft_resetspaces();
 		// ft_free_tree(root, opt);
 	}
 }
@@ -112,8 +95,6 @@ t_node *ft_ls(t_opt *opt, t_path *path)
 			closedir(current_dir);
 			return (root);
 		}
-		if (opt->opt_l)
-			ft_issymlink(opt, ft_create_stat(NULL, CURRENT_PATH, opt));
 		CURRENT_PATH = ft_addpath(CURRENT_PATH, "/");
 		while ((current_file = readdir(current_dir)))
 		{
@@ -130,7 +111,8 @@ t_node *ft_ls(t_opt *opt, t_path *path)
 		}
 		closedir(current_dir);
 	}
-	if (errno == ENOTDIR)
+	// perror(strerror(errno));
+	if (errno == ENOTDIR || errno == ENOENT)
 		return (ft_error2(path, opt));
 	ft_display_ls(opt, path, root);
 	// printf("path = %s\n", CURRENT_PATH);
@@ -154,8 +136,8 @@ void ft_lserror(t_opt *opt, t_path *path)
 
 void ft_lsfile(t_opt *opt, t_path *path)
 {
-	t_node *root;
-	t_node *node;
+	t_node	*root;
+	t_node	*node;
 	char	spaceat_theend;
 
 	root = NULL;
@@ -174,16 +156,7 @@ void ft_lsfile(t_opt *opt, t_path *path)
 	if (root)
 		ft_display_tree(root, opt);
 	if (opt->opt_l)
-	{
-		ft_calc_blocks(0, 1);
-		ft_spaceafteruser("", 1);
-		ft_spaceaftergroup("", 1);
-		ft_spacebeforenlink(0, 1);
-		ft_spacebeforenbytes(0, 1);
-	}
+		ft_resetspaces();
 	if (spaceat_theend && root)
-	{
-		// ft_putendl("yo");
 		ft_putchar('\n');
-	}
 }

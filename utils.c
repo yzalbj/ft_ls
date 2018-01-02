@@ -19,3 +19,18 @@ int	ft_timecmp(t_stat *root, t_stat *node)
 	else
 		return (0);
 }
+
+void	ft_freetab(char ***tab)
+{
+	int		i;
+
+	i = 0;
+	while ((*tab)[i])
+	{
+		free((*tab)[i]);
+		(*tab)[i] = NULL;
+		i++;
+	}
+	free(*tab);
+	*tab = NULL;
+}

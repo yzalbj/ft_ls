@@ -55,6 +55,7 @@ typedef	struct	s_stat
 {
 	char		*mode;
 	char		*time;
+	char		*year;
 	long		epoch_sec;
 	long		epoch_nsec;
 	char		*user;
@@ -77,6 +78,7 @@ typedef	struct	s_node
 void print2D(t_node *root);
 void ft_free_tree(t_node *root, t_opt *opt);
 int	ft_timecmp(t_stat *root, t_stat *node);
+void	ft_freetab(char ***tab);
 /*
 **	PATH.C
 */
@@ -106,6 +108,7 @@ t_stat	*ft_create_stat(struct dirent *file, char *path, t_opt *opt);
 **	CALC_SPACE.C
 */
 
+void     ft_resetspaces(void);
 char	ft_spacebeforenlink(int nlink, int reset);
 char	ft_spacebeforenbytes(int size, int reset);
 int		ft_calc_blocks(int blocks, int reset);

@@ -14,9 +14,9 @@
 
 void ft_display_time(t_opt *opt, t_stat *stat)
 {
-    char *copy_time;
     time_t current;
 
+	ft_putchar(' ');
     if (!opt->opt_T)
     {
         if (stat->epoch_sec > time(&current) - 15780000 &&
@@ -25,14 +25,19 @@ void ft_display_time(t_opt *opt, t_stat *stat)
         else
         {
             // c cheum
-            copy_time = ft_strndup(stat->time, 6);
-            ft_putstr(copy_time);
+            // copy_time = ft_strndup(stat->time, 6);
+            // ft_putstr(copy_time);
+			ft_putstr(ft_strsub(stat->time, 0, 6));
             ft_putstr("  ");
-            ft_putstr(ft_strsub(stat->time, 16, 4));
+            ft_putstr(stat->year);
         }
     }
     else
-        ft_putstr(stat->time);
+	{
+		ft_putstr(stat->time);
+		ft_putstr(stat->year);
+	}
+	ft_putchar(' ');
 }
 
 void ft_displaylong(t_opt *opt, t_stat *stat)
@@ -50,13 +55,18 @@ void ft_displaylong(t_opt *opt, t_stat *stat)
         while (space--)
             ft_putstr(" ");
         ft_putstr(stat->group);
-        space = ft_spaceaftergroup("", 0) + 2- ft_strlen(stat->group);
+        space = ft_spaceaftergroup("", 0) + 2 - ft_strlen(stat->group);
+		// printf("space after group = %d\n", space);
         while (space--)
             ft_putstr(" ");
     //espace entre group et size pas bon --> ./ft_ls -l /dev
-       space = ft_spacebeforenbytes(1, 0) - ft_intlen(stat->size[0]);
-       while (space--)
-           ft_putstr(" ");
+		if (ft_spacebeforenbytes(1, 0) == ft_intlen(stat->size[0]))
+			space = 0;
+		else
+			space = ft_spacebeforenbytes(1, 0) - ft_intlen(stat->size[0]);
+		// printf("mspace before bytes = %d\n", space);
+		while ((ft_intlen(stat->size[0]) < ft_spacebeforenbytes(1, 0)) && space > 0 && space--)
+			ft_putchar(' ');
 		if (stat->mode[0] == 'c' || stat->mode[0] == 'b')
 		{
 			ft_putnbr(stat->size[0]);
@@ -65,9 +75,7 @@ void ft_displaylong(t_opt *opt, t_stat *stat)
 		}
 		else
         	ft_putnbr(stat->size[0]);
-        ft_putstr(" ");
         ft_display_time(opt, stat);
-        ft_putstr(" ");
 }
 
 void ft_display_file(t_opt *opt, t_stat *stat)
