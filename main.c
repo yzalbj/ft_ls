@@ -12,41 +12,77 @@
 
 #include "./includes/ft_ls.h"
 
-// TEST 13 DE ERROR HANDLING
-void ft_sortargv(int argc, char **argv, int i, t_opt *opt)
+void ft_sortargvascii(int argc, char **argv, int i)
 {
-	t_stat	*first;
-	t_stat	*second;
 	while (i < argc - 1)
 	{
-		if (opt->opt_t)
-		{
-			first = ft_create_stat(NULL, argv[i], opt);
-			second = ft_create_stat(NULL, argv[i + 1], opt);
-			if (!opt->opt_r && ft_timecmp(first, second) == 1)
-			{
-				ft_swapstr(&argv[i], &argv[i + 1]);
-				i = 1;
-			}
-			else if (opt->opt_r && ft_timecmp(first, second) == -1)
-			{
-				ft_swapstr(&argv[i], &argv[i + 1]);
-				i = 1;
-			}
-			free(first);
-			free(second);
-		}
-		else if (opt->opt_r && ft_strcmp(argv[i], argv[i + 1]) < 0)
-		{
-			ft_swapstr(&argv[i], &argv[i + 1]);
-			i = 1;
-		}
-		else if (!opt->opt_r && ft_strcmp(argv[i], argv[i + 1]) > 0)
+		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			ft_swapstr(&argv[i], &argv[i + 1]);
 			i = 1;
 		}
 		i++;
+	}
+}
+
+void ft_sorterror(t_path *path)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (path->all_path[i])
+	{
+		if (path->error[i])
+		{
+			j = i;
+			while (path->error[j] && path->error[j] != -1)
+				j++;
+			if (path->error[j] == -1)
+				return ;
+			ft_swapstr(&path->all_path[i], &path->all_path[i + 1]);
+			path->error[i] = 0;
+			path->error[i + 1] = 1;
+			i = 1;
+		}
+		i++;
+	}
+}
+
+void ft_sortargv(t_path *path, t_opt *opt)
+{
+	t_stat	*first;
+	t_stat	*second;
+	int		i;
+
+	i = 0;
+	ft_sorterror(path);
+	while (!path->error[i + 1] && path->all_path[i + 1])
+	{
+		if (opt->opt_t)
+		{
+			first = ft_create_stat(NULL, path->all_path[i], opt);
+			second = ft_create_stat(NULL, path->all_path[i + 1], opt);
+			if (!opt->opt_r && ft_timecmp(first, second) == 1)
+			{
+				ft_swapstr(&path->all_path[i], &path->all_path[i + 1]);
+				i = 1;
+			}
+			else if (opt->opt_r && ft_timecmp(first, second) == -1)
+			{
+				ft_swapstr(&path->all_path[i], &path->all_path[i + 1]);
+				i = 1;
+			}
+			free(first);
+			free(second);
+		}
+		else if (opt->opt_r && ft_strcmp(path->all_path[i], path->all_path[i + 1]) < 0)
+		{
+			ft_swapstr(&path->all_path[i], &path->all_path[i + 1]);
+			i = 0;
+		}
+			i++;
 	}
 }
 
@@ -58,9 +94,9 @@ void ft_start_ls(t_opt *opt, t_path *path)
 		ft_lserror(opt, path);
 		path->index++;
 	}
+	ft_sortargv(path, opt);
 	path->index = 0;
 	path->dir_or_file = FILE;
-	// ft_putendl("file");
 	ft_lsfile(opt, path);
 	path->dir_or_file = DIRECTORY;
 	path->index = 0;
@@ -81,7 +117,7 @@ int		main(int argc, char **argv)
 		opt = ft_opt(argc, argv, &i);
 		if (opt != NULL)
 		{
-			ft_sortargv(argc, argv, i, opt);
+			ft_sortargvascii(argc, argv, i);
 			path = ft_createpath(argv, argc, i);
 			if (path)
 			{
@@ -94,8 +130,10 @@ int		main(int argc, char **argv)
 					ft_start_ls(opt, path);
 			}
 			free(opt);
+			opt = NULL;
+			ft_freepath(&path);
 		}
-		// while(1);
-	// exit(0);
+		else
+			return (1);
 	return (0);
 }

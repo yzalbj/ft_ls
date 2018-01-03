@@ -12,54 +12,21 @@
 
 #include "./includes/ft_ls.h"
 
-char    *ft_addpath(char *path, char *to_add)
-{
-    path = ft_strjoin(path, to_add, 'N');
-    return (path);
-}
-
-char    *ft_removeslash(char *path)
-{
-    char    *new;
-
-    // ft_putendl(path);
-    // ft_putendl("oui");
-    if (!path)
-      return (NULL);
-    if (path[ft_strlen(path) - 1] == '/')
-    {
-        // ft_putendl("oui");
-      new = ft_strnew(ft_strlen(path) - 1);
-      ft_strncpy(new, path, ft_strlen(path) - 1);
-      return (new);
-    }
-    return(path);
-}
-
-char *ft_lastfile(char *path)
-{
-	int		len;
-
-	len = ft_strlen(path);
-	while (len >= 0)
-	{
-		if (path[len] == '/')
-			break ;
-		len--;
-	}
-	return (&path[len + 1]);
-}
-
 void ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 {
+	char *path_to_print;
+
 	if ((!errno || errno == EACCES) && CURRENT_PATH
-		&& path->dir_or_file == DIRECTORY && (path->argc -1 - opt->opt_nb > 1 || path->sub_index))
+		&& path->dir_or_file == DIRECTORY && (path->argc -1 - opt->opt_nb > 1 ||
+			path->sub_index))
 	{
 		// printf("path->index == %d\nopt->opt_nb == %d\n", path->index, opt->opt_nb);
 		// ft_putnbr(path->index - opt->opt_nb);
 		if (path->sub_index || (!root && path->sub_index))
 			ft_putchar('\n');
-		ft_putstr(ft_removeslash(CURRENT_PATH));
+		path_to_print = ft_removeslash(CURRENT_PATH);
+		ft_putstr(path_to_print);
+		ft_strdel(&path_to_print);
 		ft_putstr(":\n");
 	}
 	if (errno != 0)
@@ -76,7 +43,6 @@ void ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 		ft_display_tree(root, opt);
 		if (opt->opt_l)
 			ft_resetspaces();
-		// ft_free_tree(root, opt);
 	}
 }
 
@@ -95,12 +61,13 @@ t_node *ft_ls(t_opt *opt, t_path *path)
 			closedir(current_dir);
 			return (root);
 		}
-		CURRENT_PATH = ft_addpath(CURRENT_PATH, "/");
+		CURRENT_PATH = ft_addpath(CURRENT_PATH, "/", 'L');
+		// printf("CURRNET PATH = %s\n", CURRENT_PATH);
 		while ((current_file = readdir(current_dir)))
 		{
 			if (current_file->d_name[0] == '.' && !(opt->opt_a))
 				continue;
-			PATH_TMP = ft_addpath(CURRENT_PATH, current_file->d_name);
+			PATH_TMP = ft_addpath(CURRENT_PATH, current_file->d_name, 'N');
 			if (errno != 0)
 				ft_error(errno, path, opt);
 			if (!root)
@@ -111,16 +78,16 @@ t_node *ft_ls(t_opt *opt, t_path *path)
 		}
 		closedir(current_dir);
 	}
-	// perror(strerror(errno));
 	if (errno == ENOTDIR || errno == ENOENT)
 		return (ft_error2(path, opt));
 	ft_display_ls(opt, path, root);
-	// printf("path = %s\n", CURRENT_PATH);
 	if (opt->opt_R && path->dir_or_file == DIRECTORY)
 	{
 		path->sub_index = 1;
 		ft_recursivels(root, opt, path);
 	}
+	ft_free_tree(&root, opt);
+
 	return (NULL);
 }
 
@@ -131,7 +98,7 @@ void ft_lserror(t_opt *opt, t_path *path)
 	if ((current_dir = opendir(CURRENT_PATH)))
 		closedir(current_dir);
 	else
-		ft_error2(path, opt);
+			ft_error2(path, opt);
 }
 
 void ft_lsfile(t_opt *opt, t_path *path)
@@ -149,7 +116,7 @@ void ft_lsfile(t_opt *opt, t_path *path)
 			root = node;
 		else if (node)
 			ft_place_node(&root, node, opt);
-		else if (!errno)
+		if (!errno)
 			spaceat_theend = 1;
 		path->index++;
 	}

@@ -25,24 +25,26 @@ t_path	*ft_createpath(char **argv, int argc, int i)
 		return (NULL);
 	if (!(path->all_path = (char **)malloc(sizeof(char *) * (size + 1))))
 		return (NULL);
+	if (!(path->error = (int *)malloc(sizeof(int) * (size + 1))))
+		return (NULL);
 	path->argc = argc;
 	path->index = 0;
 	path->sub_index = 0;
 	if (i == argc)
 	{
 		path->all_path[j] = ft_strdup(".");
+		path->error[j] = 0;
 		j++;
 	}
 	while (i < argc)
 	{
 		path->all_path[j] = ft_strdup(argv[i]);
+		path->error[j] = 0;
 		i++;
 		j++;
 	}
 	path->all_path[j] = NULL;
+	path->error[j] = -1;
 	PATH_TMP = NULL;
-	// j = 0;
-	// while(path->all_path[j])
-	// 	ft_putendl(path->all_path[j++]);
 	return (path);
 }

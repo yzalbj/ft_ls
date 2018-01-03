@@ -90,8 +90,7 @@ t_opt	*ft_opt(int argc, char **argv, int *i)
 				return (NULL);
 			(*i)++;
 		}
-		opt->opt_nb = *i - 1;
-		// opt->opt_nb--;
 	}
+	opt->opt_nb = (*i > 1 ? *i - 1 : 0);
 	return (opt);
 }

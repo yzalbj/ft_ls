@@ -6,13 +6,13 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/18 14:05:00 by jblazy            #+#    #+#             */
-/*   Updated: 2017/12/18 14:05:01 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/03 19:46:51 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/ft_ls.h"
 
-void     ft_resetspaces(void)
+void	ft_resetspaces(void)
 {
 	ft_spaceafteruser("", 1);
 	ft_spaceaftergroup("", 1);
@@ -23,7 +23,7 @@ void     ft_resetspaces(void)
 char	ft_spacebeforenlink(int nlink, int reset)
 {
 	static char	space;
-	char 		tmp;
+	char		tmp;
 
 	tmp = ft_intlen(nlink);
 	if (tmp > space)
@@ -36,7 +36,7 @@ char	ft_spacebeforenlink(int nlink, int reset)
 char	ft_spacebeforenbytes(int size, int reset)
 {
 	static char	space;
-	char 		tmp;
+	char		tmp;
 
 	tmp = ft_intlen(size);
 	if (tmp > space)
@@ -47,22 +47,10 @@ char	ft_spacebeforenbytes(int size, int reset)
 	return (tmp);
 }
 
-int		ft_calc_blocks(int blocks, int reset)
-{
-	static int	total;
-	int			tmp;
-
-	total += blocks;
-	tmp = total;
-	if (reset)
-		total = 0;
-	return (tmp);
-}
-
-int		ft_spaceafteruser(char  *user, int reset)
+int		ft_spaceafteruser(char *user, int reset)
 {
 	static char space;
-	char tmp;
+	char		tmp;
 
 	tmp = ft_strlen(user);
 	if (tmp > space)
@@ -70,13 +58,13 @@ int		ft_spaceafteruser(char  *user, int reset)
 	tmp = space;
 	if (reset)
 		space = 0;
-	return(tmp);
+	return (tmp);
 }
 
-int		ft_spaceaftergroup(char  *group, int reset)
+int		ft_spaceaftergroup(char *group, int reset)
 {
 	static char space;
-	char tmp;
+	char		tmp;
 
 	tmp = ft_strlen(group);
 	if (tmp > space)
@@ -84,5 +72,5 @@ int		ft_spaceaftergroup(char  *group, int reset)
 	tmp = space;
 	if (reset)
 		space = 0;
-	return(tmp);
+	return (tmp);
 }

@@ -15,6 +15,7 @@
 void    ft_recursivels(t_node *tree, t_opt *opt, t_path *path)
 {
 	char *tmp;
+
 	if (opt->opt_r && tree && tree->right)
 		ft_recursivels(tree->right, opt, path);
 	else if (!opt->opt_r && tree && tree->left)
@@ -22,13 +23,12 @@ void    ft_recursivels(t_node *tree, t_opt *opt, t_path *path)
 	if (tree && tree->stat->mode[0] == 'd' && ft_strcmp(tree->stat->name, ".")
 		&& ft_strcmp(tree->stat->name, ".."))
 	{
-		// printf("CURRENT_PATH = %s\ntree->name = %s\n", mCURRENT_PATH, tree->stat->name);
 		tmp = ft_strdup(CURRENT_PATH);
-		CURRENT_PATH = ft_addpath(CURRENT_PATH, tree->stat->name);
-		// printf("CURRENT_PATH = %s\n", CURRENT_PATH);
+		CURRENT_PATH = ft_addpath(CURRENT_PATH, tree->stat->name, 'L');
 		ft_ls(opt, path);
-		CURRENT_PATH = tmp;
-		free(tmp);
+		ft_strdel(&CURRENT_PATH);
+		CURRENT_PATH = ft_strdup(tmp);
+		ft_strdel(&tmp);
 	}
 	if (opt->opt_r && tree && tree->left)
 		ft_recursivels(tree->left, opt, path);
