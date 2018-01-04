@@ -12,7 +12,7 @@
 
 #include "./includes/ft_ls.h"
 
-t_node	*ft_opendir(t_opt *opt, t_path *path, DIR *current_dir)
+t_node	*ft_readdir(t_opt *opt, t_path *path, DIR *current_dir)
 {
 	struct dirent	*current_file;
 	t_node			*root;
@@ -50,7 +50,7 @@ t_node	*ft_ls(t_opt *opt, t_path *path)
 			closedir(current_dir);
 			return (root);
 		}
-		root = ft_opendir(opt, path, current_dir);
+		root = ft_readdir(opt, path, current_dir);
 		closedir(current_dir);
 	}
 	if (errno == ENOTDIR || errno == ENOENT)
