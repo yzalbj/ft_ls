@@ -78,9 +78,12 @@ typedef	struct	s_node
 
 void print2D(t_node *root);
 void ft_free_tree(t_node **root, t_opt *opt);
+void ft_free_node(t_node **root, t_opt *opt);
 int	ft_timecmp(t_stat *root, t_stat *node);
 void	ft_freetab(char ***tab);
 void ft_freepath(t_path **path);
+void	ft_display_opt_uppert(t_stat *stat);
+void	ft_display_time(t_opt *opt, t_stat *stat);
 /*
 **	PATH.C
 */
@@ -112,7 +115,7 @@ t_stat	*ft_create_stat(struct dirent *file, char *path, t_opt *opt);
 
 void     ft_resetspaces(void);
 char	ft_spacebeforenlink(int nlink, int reset);
-char	ft_spacebeforenbytes(int size, int reset);
+char	ft_spacebeforenbytes(int size, int reset, char mode, int index);
 int		ft_calc_blocks(int blocks, int reset);
 int     ft_spaceafteruser(char  *user, int reset);
 int     ft_spaceaftergroup(char  *group, int reset);

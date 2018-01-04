@@ -6,13 +6,13 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 14:04:29 by jblazy            #+#    #+#             */
-/*   Updated: 2017/12/21 14:04:31 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/04 16:22:02 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/ft_ls.h"
 
-void ft_free_node(t_node **root, t_opt *opt)
+void	ft_free_node(t_node **root, t_opt *opt)
 {
 	free((*root)->stat->name);
 	(*root)->stat->name = NULL;
@@ -32,7 +32,7 @@ void ft_free_node(t_node **root, t_opt *opt)
 	(*root) = NULL;
 }
 
-void ft_free_tree(t_node **tree, t_opt *opt)
+void	ft_free_tree(t_node **tree, t_opt *opt)
 {
 	if ((*tree) && (*tree)->left)
 		ft_free_tree(&(*tree)->left, opt);
@@ -56,7 +56,7 @@ void	ft_freetab(char ***tab)
 	*tab = NULL;
 }
 
-void ft_freepath(t_path **path)
+void	ft_freepath(t_path **path)
 {
 	ft_freetab(&(*path)->all_path);
 	free((*path)->path_tmp);
