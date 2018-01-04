@@ -37,7 +37,7 @@ void	ft_display_opt_uppert(t_stat *stat)
 void	ft_display_time(t_opt *opt, t_stat *stat)
 {
 	ft_putchar(' ');
-	if (!opt->opt_T)
+	if (!opt->opt_uppert)
 		ft_display_opt_uppert(stat);
 	else
 	{

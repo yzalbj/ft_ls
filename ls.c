@@ -12,46 +12,37 @@
 
 #include "./includes/ft_ls.h"
 
-void	ft_display_ls(t_opt *opt, t_path *path, t_node *root)
+t_node	*ft_opendir(t_opt *opt, t_path *path, DIR *current_dir)
 {
-	char *path_to_print;
+	struct dirent	*current_file;
+	t_node			*root;
 
-	if ((!errno || errno == EACCES) && CURRENT_PATH
-		&& path->dir_or_file == DIRECTORY &&
-			(path->argc - 1 - opt->opt_nb > 1 || path->sub_index))
+	root = NULL;
+	CURRENT_PATH = ft_addpath(CURRENT_PATH, "/", 'L');
+	while ((current_file = readdir(current_dir)))
 	{
-		if (path->sub_index || (!root && path->sub_index))
-			ft_putchar('\n');
-		path_to_print = ft_removeslash(CURRENT_PATH);
-		ft_putstr(path_to_print);
-		ft_strdel(&path_to_print);
-		ft_putstr(":\n");
+		if (current_file->d_name[0] == '.' && !(opt->opt_a))
+			continue;
+		PATH_TMP = ft_addpath(CURRENT_PATH, current_file->d_name, 'N');
+		if (errno != 0)
+			ft_error(errno, path, opt);
+		if (!root)
+			root = ft_create_node(current_file, PATH_TMP, opt);
+		else
+			ft_place_node(&root,
+		ft_create_node(current_file, PATH_TMP, opt), opt);
+		ft_strdel(&PATH_TMP);
 	}
-	if (errno != 0)
-		ft_error(errno, path, opt);
-	else
-	{
-		if (opt->opt_l && root)
-		{
-			ft_putstr("total ");
-			ft_putnbr(ft_calc_blocks(0, 1));
-			ft_putchar('\n');
-		}
-		path->sub_index++;
-		ft_display_tree(root, opt);
-		if (opt->opt_l)
-			ft_resetspaces();
-	}
+	return (root);
 }
 
 t_node	*ft_ls(t_opt *opt, t_path *path)
 {
 	DIR				*current_dir;
-	struct dirent	*current_file;
 	t_node			*root;
 
-	root = NULL;
 	errno = 0;
+	root = NULL;
 	if ((current_dir = opendir(CURRENT_PATH)))
 	{
 		if (path->dir_or_file != DIRECTORY)
@@ -59,27 +50,13 @@ t_node	*ft_ls(t_opt *opt, t_path *path)
 			closedir(current_dir);
 			return (root);
 		}
-		CURRENT_PATH = ft_addpath(CURRENT_PATH, "/", 'L');
-		while ((current_file = readdir(current_dir)))
-		{
-			if (current_file->d_name[0] == '.' && !(opt->opt_a))
-				continue;
-			PATH_TMP = ft_addpath(CURRENT_PATH, current_file->d_name, 'N');
-			if (errno != 0)
-				ft_error(errno, path, opt);
-			if (!root)
-				root = ft_create_node(current_file, PATH_TMP, opt);
-			else
-				ft_place_node(&root,
-						ft_create_node(current_file, PATH_TMP, opt), opt);
-			ft_strdel(&PATH_TMP);
-		}
+		root = ft_opendir(opt, path, current_dir);
 		closedir(current_dir);
 	}
 	if (errno == ENOTDIR || errno == ENOENT)
 		return (ft_error2(path, opt));
 	ft_display_ls(opt, path, root);
-	if (opt->opt_R && path->dir_or_file == DIRECTORY)
+	if (opt->opt_upperr && path->dir_or_file == DIRECTORY)
 	{
 		path->sub_index = 1;
 		ft_recursivels(root, opt, path);
@@ -124,4 +101,25 @@ void	ft_lsfile(t_opt *opt, t_path *path)
 	if (spaceat_theend && root)
 		ft_putchar('\n');
 	ft_free_tree(&root, opt);
+}
+
+void	ft_start_ls(t_opt *opt, t_path *path)
+{
+	path->dir_or_file = ERROR;
+	while (CURRENT_PATH)
+	{
+		ft_lserror(opt, path);
+		path->index++;
+	}
+	ft_sortargv(path, opt);
+	path->index = 0;
+	path->dir_or_file = FILE;
+	ft_lsfile(opt, path);
+	path->dir_or_file = DIRECTORY;
+	path->index = 0;
+	while (CURRENT_PATH)
+	{
+		ft_ls(opt, path);
+		path->index++;
+	}
 }

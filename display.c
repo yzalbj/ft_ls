@@ -25,7 +25,7 @@ void	ft_spacefornbytes(t_stat *stat)
 		ft_putnbr(stat->size[0]);
 		ft_putstr(", ");
 	}
-	else
+	else if (space[0] > 1)
 		ft_putstr("   ");
 	while (space[1] > 0 && space[1]--)
 		ft_putchar(' ');
@@ -80,4 +80,32 @@ void	ft_display_tree(t_node *tree, t_opt *opt)
 		ft_display_tree(tree->right, opt);
 	else if (opt->opt_r && tree->left)
 		ft_display_tree(tree->left, opt);
+}
+
+void	ft_display_ls(t_opt *opt, t_path *path, t_node *root)
+{
+	if ((!errno || errno == EACCES) && CURRENT_PATH
+		&& path->dir_or_file == DIRECTORY &&
+			(path->argc - 1 - opt->opt_nb > 1 || path->sub_index))
+	{
+		if (path->sub_index || (!root && path->sub_index))
+			ft_putchar('\n');
+		ft_printwithoutslash(CURRENT_PATH);
+		ft_putstr(":\n");
+	}
+	if (errno != 0)
+		ft_error(errno, path, opt);
+	else
+	{
+		if (opt->opt_l && root)
+		{
+			ft_putstr("total ");
+			ft_putnbr(ft_calc_blocks(0, 1));
+			ft_putchar('\n');
+		}
+		path->sub_index++;
+		ft_display_tree(root, opt);
+		if (opt->opt_l)
+			ft_resetspaces();
+	}
 }

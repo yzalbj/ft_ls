@@ -6,7 +6,7 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 10:32:02 by jblazy            #+#    #+#             */
-/*   Updated: 2017/12/14 19:26:42 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/04 20:21:19 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 unsigned int		ft_count_words(char const *s, char c);
 unsigned int		ft_wordlen(char const *s, char c);
-void          		ft_swapstr(char **s1, char **s2);
+void				ft_swapstr(char **s1, char **s2);
+
 /*
 **	INT FUNCTIONS
 */

@@ -14,20 +14,23 @@
 
 void	ft_free_node(t_node **root, t_opt *opt)
 {
-	free((*root)->stat->name);
-	(*root)->stat->name = NULL;
-	if (opt->opt_l)
+	if ((*root)->stat)
 	{
-		ft_strdel(&(*root)->stat->user);
-		ft_strdel(&(*root)->stat->group);
-		if ((*root)->stat->mode[0] == 'l')
-			ft_strdel(&(*root)->stat->readlink);
+		free((*root)->stat->name);
+		(*root)->stat->name = NULL;
+		if (opt->opt_l)
+		{
+			ft_strdel(&(*root)->stat->user);
+			ft_strdel(&(*root)->stat->group);
+			if ((*root)->stat->mode[0] == 'l')
+				ft_strdel(&(*root)->stat->readlink);
+		}
+		ft_strdel(&(*root)->stat->year);
+		ft_strdel(&(*root)->stat->time);
+		ft_strdel(&(*root)->stat->mode);
+		free((*root)->stat);
+		(*root)->stat = NULL;
 	}
-	ft_strdel(&(*root)->stat->year);
-	ft_strdel(&(*root)->stat->time);
-	ft_strdel(&(*root)->stat->mode);
-	free((*root)->stat);
-	(*root)->stat = NULL;
 	free((*root));
 	(*root) = NULL;
 }

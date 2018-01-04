@@ -3,7 +3,7 @@ NAME = ft_ls
 FLAGS = -ggdb -Wall -Wextra -Werror
 
 SRC = main.c error.c option.c ls.c tree.c stat.c display.c displaytime.c \
-		printtree.c calc_space.c path.c free.c utils.c
+		calc_space.c path.c free.c utils.c stat_mode.c
 
 OBJ = $(SRC:.c=.o)
 

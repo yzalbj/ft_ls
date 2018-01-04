@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/01/04 19:17:43 by jblazy            #+#    #+#             */
+/*   Updated: 2018/01/04 19:18:56 by jblazy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "./includes/ft_ls.h"
+
 /*
 ** si FT_TIMECMP == 1 alors le temps de node est PLUS RECENT que celui de root
 ** si FT_TIMECMP == -1 alors le temps de node est PLUS VIEUX que celui de root
 ** si FT_TIMECMP == 0 alors le temps de node est EGAL a celui de root
 */
 
-int	ft_timecmp(t_stat *root, t_stat *node)
+int		ft_timecmp(t_stat *root, t_stat *node)
 {
 	if (root->epoch_sec < node->epoch_sec)
 		return (1);
@@ -20,7 +32,7 @@ int	ft_timecmp(t_stat *root, t_stat *node)
 		return (0);
 }
 
-char *ft_lastfile(char *path)
+char	*ft_lastfile(char *path)
 {
 	int		len;
 
@@ -34,22 +46,22 @@ char *ft_lastfile(char *path)
 	return (&path[len + 1]);
 }
 
-char    *ft_removeslash(char *path)
+void	ft_printwithoutslash(char *path)
 {
-	char    *new;
+	char	*new;
 
-	if (!path)
-		return (NULL);
-	if (path[ft_strlen(path) - 1] == '/')
+	if (path && path[ft_strlen(path) - 1] == '/')
 	{
 		new = ft_strnew(ft_strlen(path) - 1);
 		ft_strncpy(new, path, ft_strlen(path) - 1);
-		return (new);
+		ft_putstr(new);
+		ft_strdel(&new);
 	}
-	return(path);
+	else if (path)
+		ft_putstr(path);
 }
 
-char    *ft_addpath(char *path, char *to_add, char part_free)
+char	*ft_addpath(char *path, char *to_add, char part_free)
 {
 	char *new;
 

@@ -6,7 +6,7 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 12:26:21 by jblazy            #+#    #+#             */
-/*   Updated: 2017/12/13 15:26:35 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/04 20:20:23 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		*ft_dectobin(int nb)
 	int		i;
 
 	i = 0;
-	result = (int *)malloc(sizeof (int) * 1000);
+	result = (int *)malloc(sizeof(int) * 1000);
 	while (nb > 0)
 	{
 		result[i] = nb % 2;
