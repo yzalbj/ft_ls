@@ -16,8 +16,10 @@ void	ft_spacefornbytes(t_stat *stat)
 {
 	char space[2];
 
-	space[0] = ft_spacebeforenbytes(1, 0, 0, 0) - ft_intlen(stat->size[0]) + 1;
+	space[0] = ft_spacebeforenbytes(1, 0, 0, 0) - ft_intlen(stat->size[0]);
 	space[1] = ft_spacebeforenbytes(1, 0, 0, 1) - ft_intlen(stat->size[1]);
+	if (stat->mode[0] != 'c' && stat->mode[0] != 'b' && space[0] > 0)
+		ft_putstr("   ");
 	while (space[0] > 0 && space[0]--)
 		ft_putchar(' ');
 	if (stat->mode[0] == 'c' || stat->mode[0] == 'b')
@@ -25,8 +27,6 @@ void	ft_spacefornbytes(t_stat *stat)
 		ft_putnbr(stat->size[0]);
 		ft_putstr(", ");
 	}
-	else if (space[0] > 1)
-		ft_putstr("   ");
 	while (space[1] > 0 && space[1]--)
 		ft_putchar(' ');
 	ft_putnbr(stat->size[1]);
@@ -104,7 +104,8 @@ void	ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 			ft_putchar('\n');
 		}
 		path->sub_index++;
-		ft_display_tree(root, opt);
+		ft_columns(root, opt);
+		// ft_display_tree(root, opt);
 		if (opt->opt_l)
 			ft_resetspaces();
 	}

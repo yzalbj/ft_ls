@@ -85,6 +85,7 @@ void	ft_place_node(t_node **root, t_node *node, t_opt *opt)
 	int		flag_time;
 
 	root_tmp = *root;
+	ft_nbandsize_elem(node, 0);
 	while (root_tmp)
 	{
 		flag_time = 0;

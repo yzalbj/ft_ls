@@ -20,6 +20,7 @@
 # include <pwd.h>
 # include <time.h>
 # include <sys/xattr.h>
+#include <sys/ioctl.h>
 # include <stdio.h>
 # include <errno.h>
 
@@ -29,6 +30,14 @@
 # define ERROR 0
 # define CURRENT_PATH (path->all_path[path->index])
 # define PATH_TMP path->path_tmp
+
+typedef struct		s_col
+{
+	int				column;
+	int				elempercol;
+	int				tmp_elem;
+	int				tmp_col;
+}					t_col;
 
 typedef struct		s_path
 {
@@ -85,6 +94,8 @@ void				ft_display_ls(t_opt *opt, t_path *path, t_node *root);
 char				*ft_findmode(mode_t st_mode);
 void				ft_start_ls(t_opt *opt, t_path *path);
 void				ft_sortargv(t_path *path, t_opt *opt);
+void ft_columns(t_node *tree, t_opt *opt);
+int ft_nbandsize_elem(t_node *tree, int flag);
 
 /*
 **	PATH.C
