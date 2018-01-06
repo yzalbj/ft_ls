@@ -58,8 +58,10 @@ void	ft_display_file(t_opt *opt, t_stat *stat)
 {
 	if (opt->opt_l)
 		ft_displaylong(opt, stat);
-	//ft_putstr(stat->name);
-	ft_putcolor(stat);
+	if (!opt->opt_upperg)
+		ft_putstr(stat->name);
+	else
+		ft_putcolor(stat);
 	if (stat->mode[0] == 'l' && opt->opt_l)
 	{
 		ft_putstr(" -> ");

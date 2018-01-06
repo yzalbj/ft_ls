@@ -71,6 +71,7 @@ typedef	struct		s_opt
 	char			opt_upperr;
 	char			opt_t;
 	char			opt_uppert;
+	char			opt_upperg;
 	char			opt_nb;
 }					t_opt;
 
@@ -110,6 +111,8 @@ void				ft_sortargv(t_path *path, t_opt *opt);
 void				ft_columns(t_node *tree, t_opt *opt);
 int					ft_nbandsize_elem(t_node *tree, int flag);
 void				ft_putcolor(t_stat *stat);
+int					ft_major(dev_t _x);
+int					ft_minor(dev_t _x);
 
 /*
 **	PATH.C

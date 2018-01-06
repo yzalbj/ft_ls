@@ -84,10 +84,14 @@ void ft_columns(t_node *tree, t_opt *opt)
 {
 	struct	winsize w;
 	t_col	col;
+	int		maxlen;
 
 	ioctl(0, TIOCGWINSZ, &w);
 	// col.column = (int)w.ws_col / 20 > 0 ? (int)w.ws_col / 20 : 1;
-	col.column = (int)w.ws_col / 20 + 1;
+	printf ("lines %d\n", w.ws_row);
+	printf ("columns %d\n", w.ws_col);
+	maxlen = ft_nbandsize_elem(NULL, 0) + 4;
+	col.column = (int)w.ws_col / maxlen > 0 ? (int)w.ws_col / maxlen : (int)w.ws_col / maxlen ;
 	col.tmp_col = 0;
 	col.elempercol = (ft_nbandsize_elem(NULL, 1) + 1) / col.column;
 	if ((ft_nbandsize_elem(NULL, 1) + 1) / col.column > 0)
@@ -99,6 +103,4 @@ void ft_columns(t_node *tree, t_opt *opt)
 	ft_putnbr(ft_nbandsize_elem(NULL, 1) + 1);
 	ft_putendl("\n====");
 	ft_display_columsleft(tree, &col, 1, opt);
-	// printf ("lines %d\n", w.ws_row);
-	// printf ("columns %d\n", w.ws_col);
 }

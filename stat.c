@@ -16,8 +16,8 @@ void	stat_optl2(char *path, t_stat *return_stat, struct stat *current_stat)
 {
 	if (return_stat->mode[0] == 'c' || return_stat->mode[0] == 'b')
 	{
-		return_stat->size[0] = major(current_stat->st_rdev);
-		return_stat->size[1] = minor(current_stat->st_rdev);
+		return_stat->size[0] = ft_major(current_stat->st_rdev);
+		return_stat->size[1] = ft_minor(current_stat->st_rdev);
 	}
 	else
 	{

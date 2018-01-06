@@ -16,7 +16,7 @@ void	ft_initopt(t_opt **opt, char **argv, int i, int *j)
 {
 	while (argv[i][*j] == 'l' || argv[i][*j] == 'r' || argv[i][*j] == 'a'
 			|| argv[i][*j] == 'R' || argv[i][*j] == 't' || argv[i][*j] == 'T'
-			|| argv[i][*j] == '1')
+			|| argv[i][*j] == '1' || argv[i][*j] == 'G')
 	{
 		if (!(*opt)->opt_l && argv[i][*j] == 'l')
 			(*opt)->opt_l = 1;
@@ -30,6 +30,8 @@ void	ft_initopt(t_opt **opt, char **argv, int i, int *j)
 			(*opt)->opt_t = 1;
 		else if (!(*opt)->opt_uppert && argv[i][*j] == 'T')
 			(*opt)->opt_uppert = 1;
+		else if (!(*opt)->opt_upperg && argv[i][*j] == 'G')
+			(*opt)->opt_upperg = 1;
 		(*j)++;
 	}
 }
@@ -38,12 +40,12 @@ int		ft_isvalid_opt(char **argv, int i, int j)
 {
 	if (argv[i][j] != 'l' && argv[i][j] != 'r' && argv[i][j] != 'a' &&
 			argv[i][j] != 'R' && argv[i][j] != 't' && argv[i][j] != '\0'
-			&& argv[i][j] != 'T' && argv[i][j] != '1')
+			&& argv[i][j] != 'T' && argv[i][j] != '1' && argv[i][j] != 'G')
 	{
 		ft_putstr_fd("ft_ls: illegal option -- ", 2);
-		if (argv[i][j] != 'l' || argv[i][j] != 'r' ||
-				argv[i][j] != 'a' || argv[i][j] != 'R' ||
-					argv[i][j] != 't' || argv[i][j] != 'T' || argv[i][j] != '1')
+		if (argv[i][j] != 'l' || argv[i][j] != 'r' || argv[i][j] != 'a' ||
+			argv[i][j] != 'R' || argv[i][j] != 't' || argv[i][j] != 'T' ||
+			argv[i][j] != '1' || argv[i][j] != 'G')
 			ft_putchar_fd(argv[i][j], 2);
 		else
 			ft_putchar_fd(' ', 2);
@@ -65,6 +67,7 @@ t_opt	*ft_createopt(void)
 	opt->opt_upperr = 0;
 	opt->opt_t = 0;
 	opt->opt_uppert = 0;
+	opt->opt_upperg = 0;
 	return (opt);
 }
 
