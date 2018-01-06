@@ -22,12 +22,12 @@ void	ft_findtype(mode_t st_mode, char *mode)
 		mode[0] = 'w';
 	else if ((st_mode & S_IFIFO) == S_IFIFO)
 		mode[0] = 'p';
+	else if ((st_mode & S_IFBLK) == S_IFBLK)
+		mode[0] = 'b';
 	else if ((st_mode & S_IFCHR) == S_IFCHR)
 		mode[0] = 'c';
 	else if ((st_mode & S_IFDIR) == S_IFDIR)
 		mode[0] = 'd';
-	else if ((st_mode & S_IFBLK) == S_IFBLK)
-		mode[0] = 'b';
 	else if ((st_mode & S_IFREG) == S_IFREG)
 		mode[0] = '-';
 }

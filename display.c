@@ -58,7 +58,8 @@ void	ft_display_file(t_opt *opt, t_stat *stat)
 {
 	if (opt->opt_l)
 		ft_displaylong(opt, stat);
-	ft_putstr(stat->name);
+	//ft_putstr(stat->name);
+	ft_putcolor(stat);
 	if (stat->mode[0] == 'l' && opt->opt_l)
 	{
 		ft_putstr(" -> ");
@@ -104,8 +105,8 @@ void	ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 			ft_putchar('\n');
 		}
 		path->sub_index++;
-		ft_columns(root, opt);
-		// ft_display_tree(root, opt);
+		// ft_columns(root, opt);
+		ft_display_tree(root, opt);
 		if (opt->opt_l)
 			ft_resetspaces();
 	}

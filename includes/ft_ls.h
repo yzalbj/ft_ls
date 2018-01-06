@@ -6,7 +6,7 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 12:08:28 by jblazy            #+#    #+#             */
-/*   Updated: 2018/01/04 20:02:07 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/06 18:44:28 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <pwd.h>
 # include <time.h>
 # include <sys/xattr.h>
-#include <sys/ioctl.h>
+# include <sys/ioctl.h>
 # include <stdio.h>
 # include <errno.h>
 
@@ -30,6 +30,19 @@
 # define ERROR 0
 # define CURRENT_PATH (path->all_path[path->index])
 # define PATH_TMP path->path_tmp
+# define CYAN "\e[0;36m"
+# define BACKGROUND_CYAN "\e[46m"
+# define BOLD_CYAN "\e[1;36m"
+# define BLACK "\e[0;30m"
+# define RED "\e[0;31m"
+# define BACKGROUND_RED "\e[41m"
+# define MAGENTA "\e[0;35m"
+# define GREEN "\e[0;32m"
+# define BACKGROUND_GREEN "\e[42m"
+# define YELLOW "\e[0;33m"
+# define BACKGROUND_YELLOW "\e[43m"
+# define BLUE "\e[0;34m"
+# define RESET "\e[0m"
 
 typedef struct		s_col
 {
@@ -94,8 +107,9 @@ void				ft_display_ls(t_opt *opt, t_path *path, t_node *root);
 char				*ft_findmode(mode_t st_mode);
 void				ft_start_ls(t_opt *opt, t_path *path);
 void				ft_sortargv(t_path *path, t_opt *opt);
-void ft_columns(t_node *tree, t_opt *opt);
-int ft_nbandsize_elem(t_node *tree, int flag);
+void				ft_columns(t_node *tree, t_opt *opt);
+int					ft_nbandsize_elem(t_node *tree, int flag);
+void				ft_putcolor(t_stat *stat);
 
 /*
 **	PATH.C
