@@ -16,10 +16,15 @@ void	ft_sortargvascii(int argc, char **argv, int i)
 {
 	while (i < argc - 1)
 	{
+		if (!ft_strcmp(argv[i], "") || !ft_strcmp(argv[i + 1], ""))
+		{
+			ft_putendl("ft_ls: : No such file or directory");
+			exit (0);
+		}
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			ft_swapstr(&argv[i], &argv[i + 1]);
-			i = 1;
+			i = 0;
 		}
 		i++;
 	}

@@ -29,12 +29,11 @@ t_node	*ft_error2(t_path *path, t_opt *opt)
 			(!node_file || node_file->stat->mode[0] != 'l'))
 	{
 		ft_putstr_fd("ft_ls: ", 2);
-		if (!(ft_strcmp(CURRENT_PATH, "")))
-			ft_putstr_fd("fts_open", 2);
-		else
-			ft_putstr_fd(CURRENT_PATH, 2);
+		ft_putstr_fd(CURRENT_PATH, 2);
 		ft_putendl_fd(": No such file or directory", 2);
 		path->error[path->index] = 1;
+		if (!(ft_strcmp(CURRENT_PATH, "")))
+			exit (0);
 	}
 	if (node_file)
 		ft_free_node(&node_file, opt);
@@ -44,7 +43,7 @@ t_node	*ft_error2(t_path *path, t_opt *opt)
 void	ft_error(int err, t_path *path, t_opt *opt)
 {
 	if (err == FALSE_OPT)
-		ft_putendl_fd("usage: ft_ls [-1RTalrt] [file ...]", 2);
+		ft_putendl_fd("usage: ft_ls [-1GRTalrt] [file ...]", 2);
 	if (errno == EACCES && path->dir_or_file == DIRECTORY)
 	{
 		ft_putstr_fd("ft_ls: ", 2);
