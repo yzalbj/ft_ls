@@ -6,18 +6,18 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 19:19:10 by jblazy            #+#    #+#             */
-/*   Updated: 2018/01/06 19:19:14 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/08 18:11:11 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/ft_ls.h"
 
-int  ft_major(dev_t _x)
+int		ft_major(dev_t x)
 {
-        return ((_x >> 24) & 0xff);
+	return ((x >> 24) & 0xff);
 }
 
-int  ft_minor(dev_t _x)
+int		ft_minor(dev_t x)
 {
-        return ((_x) & 0xffffff);
+	return ((x) & 0xffffff);
 }

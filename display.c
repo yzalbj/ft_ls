@@ -74,15 +74,20 @@ void	ft_display_tree(t_node *tree, t_opt *opt)
 {
 	if (!tree)
 		return ;
-	if (!opt->opt_r && tree->left)
-		ft_display_tree(tree->left, opt);
-	else if (opt->opt_r && tree->right)
-		ft_display_tree(tree->right, opt);
-	ft_display_file(opt, tree->stat);
-	if (!opt->opt_r && tree->right)
-		ft_display_tree(tree->right, opt);
-	else if (opt->opt_r && tree->left)
-		ft_display_tree(tree->left, opt);
+	if (!opt->opt_1 && !opt->opt_l)
+		ft_columns(tree, opt);
+	else
+	{
+		if (!opt->opt_r && tree->left)
+			ft_display_tree(tree->left, opt);
+		else if (opt->opt_r && tree->right)
+			ft_display_tree(tree->right, opt);
+		ft_display_file(opt, tree->stat);
+		if (!opt->opt_r && tree->right)
+			ft_display_tree(tree->right, opt);
+		else if (opt->opt_r && tree->left)
+			ft_display_tree(tree->left, opt);
+	}
 }
 
 void	ft_display_ls(t_opt *opt, t_path *path, t_node *root)
@@ -107,7 +112,6 @@ void	ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 			ft_putchar('\n');
 		}
 		path->sub_index++;
-		// ft_columns(root, opt);
 		ft_display_tree(root, opt);
 		if (opt->opt_l)
 			ft_resetspaces();

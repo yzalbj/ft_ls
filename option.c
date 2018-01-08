@@ -32,6 +32,8 @@ void	ft_initopt(t_opt **opt, char **argv, int i, int *j)
 			(*opt)->opt_uppert = 1;
 		else if (!(*opt)->opt_upperg && argv[i][*j] == 'G')
 			(*opt)->opt_upperg = 1;
+		else if (!(*opt)->opt_1 && argv[i][*j] == '1')
+			(*opt)->opt_1 = 1;
 		(*j)++;
 	}
 }
@@ -68,6 +70,7 @@ t_opt	*ft_createopt(void)
 	opt->opt_t = 0;
 	opt->opt_uppert = 0;
 	opt->opt_upperg = 0;
+	opt->opt_1 = 0;
 	return (opt);
 }
 

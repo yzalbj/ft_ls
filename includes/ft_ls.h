@@ -48,8 +48,9 @@ typedef struct		s_col
 {
 	int				column;
 	int				elempercol;
-	int				tmp_elem;
 	int				tmp_col;
+	int				maxlen;
+	int				nb_elem;
 }					t_col;
 
 typedef struct		s_path
@@ -73,6 +74,7 @@ typedef	struct		s_opt
 	char			opt_uppert;
 	char			opt_upperg;
 	char			opt_nb;
+	char			opt_1;
 }					t_opt;
 
 typedef	struct		s_stat
@@ -109,10 +111,10 @@ char				*ft_findmode(mode_t st_mode);
 void				ft_start_ls(t_opt *opt, t_path *path);
 void				ft_sortargv(t_path *path, t_opt *opt);
 void				ft_columns(t_node *tree, t_opt *opt);
-int					ft_nbandsize_elem(t_node *tree, int flag);
+int					ft_nbandsize_elem(t_node *tree, int flag, int reset);
 void				ft_putcolor(t_stat *stat);
-int					ft_major(dev_t _x);
-int					ft_minor(dev_t _x);
+int					ft_major(dev_t x);
+int					ft_minor(dev_t x);
 
 /*
 **	PATH.C
