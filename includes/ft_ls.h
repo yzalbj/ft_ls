@@ -6,7 +6,7 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 12:08:28 by jblazy            #+#    #+#             */
-/*   Updated: 2018/01/06 18:44:28 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/12 12:17:37 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,64 @@ typedef	struct		s_node
 	struct s_node	*right;
 }					t_node;
 
+/*
+**	FREE.C
+*/
+
 void				ft_free_tree(t_node **root, t_opt *opt);
 void				ft_free_node(t_node **root, t_opt *opt);
-int					ft_timecmp(t_stat *root, t_stat *node);
 void				ft_freetab(char ***tab);
 void				ft_freepath(t_path **path);
-void				ft_display_opt_uppert(t_stat *stat);
-void				ft_display_time(t_opt *opt, t_stat *stat);
-void				ft_display_ls(t_opt *opt, t_path *path, t_node *root);
-char				*ft_findmode(mode_t st_mode);
-void				ft_start_ls(t_opt *opt, t_path *path);
-void				ft_sortargv(t_path *path, t_opt *opt);
-void				ft_columns(t_node *tree, t_opt *opt);
-int					ft_nbandsize_elem(t_node *tree, int flag, int reset);
-void				ft_putcolor(t_stat *stat);
+
+/*
+**	UTILS.C
+*/
+
+int					ft_calc_blocks(int blocks, int reset);
+int					ft_timecmp(t_stat *root, t_stat *node);
+char				*ft_addpath(char *path, char *to_add, char part_free);
+void				ft_printwithoutslash(char *path);
+char				*ft_lastfile(char *path);
+
+/*
+**	UTILS2.C
+*/
+
 int					ft_major(dev_t x);
 int					ft_minor(dev_t x);
+int					ft_checksymlink(t_node **node, t_opt *opt, t_path *path);
+
+/*
+**	DISPLAYTIME.C
+*/
+
+void				ft_display_opt_uppert(t_stat *stat);
+void				ft_display_time(t_opt *opt, t_stat *stat);
+
+/*
+**	DISPLAY_COLUMNS.C
+*/
+
+void				ft_columns(t_node *tree, t_opt *opt);
+int					ft_nbandsize_elem(t_node *tree, int flag, int reset);
+
+/*
+**	STAT_MODE.C
+*/
+
+char				*ft_findmode(mode_t st_mode);
+
+/*
+**	MAIN.C
+*/
+
+void				ft_sortargv(t_path *path, t_opt *opt);
+
+/*
+**	COLOR.C
+*/
+
+void				ft_putcolor(t_stat *stat);
 
 /*
 **	PATH.C
@@ -150,7 +192,6 @@ void				ft_resetspaces(void);
 char				ft_spacebeforenlink(int nlink, int reset);
 char				ft_spacebeforenbytes(int size, int reset,
 						char mode, int index);
-int					ft_calc_blocks(int blocks, int reset);
 int					ft_spaceafteruser(char *user, int reset);
 int					ft_spaceaftergroup(char *group, int reset);
 
@@ -158,12 +199,10 @@ int					ft_spaceaftergroup(char *group, int reset);
 **	LS.C
 */
 
+void				ft_start_ls(t_opt *opt, t_path *path);
 t_node				*ft_ls(t_opt *opt, t_path *path);
 void				ft_lsfile(t_opt *opt, t_path *path);
 void				ft_lserror(t_opt *opt, t_path *path);
-char				*ft_addpath(char *path, char *to_add, char part_free);
-void				ft_printwithoutslash(char *path);
-char				*ft_lastfile(char *path);
 /*
 **	TREE.c
 */
@@ -179,4 +218,5 @@ void				ft_recursivels(t_node *tree, t_opt *opt, t_path *path);
 
 void				ft_display_tree(t_node *tree, t_opt *opt);
 void				ft_display_file(t_opt *opt, t_stat *stat);
+void				ft_display_ls(t_opt *opt, t_path *path, t_node *root);
 #endif

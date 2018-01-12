@@ -1,6 +1,0 @@
-struct winsize *ws pour des infos sur l'ecran --> man 4 tty
-The winsize structure is defined in ~ <sys/ioctl.h>.
-getty(8)
-termios(4)
-tcgetattr to get termios struct
----> https://stackoverflow.com/questions/1022957/getting-terminal-width-in-c
