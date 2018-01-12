@@ -6,7 +6,7 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:29:27 by jblazy            #+#    #+#             */
-/*   Updated: 2018/01/04 16:01:49 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/09 11:33:36 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_node	*ft_error2(t_path *path, t_opt *opt)
 		ft_putendl_fd(": No such file or directory", 2);
 		path->error[path->index] = 1;
 		if (!(ft_strcmp(CURRENT_PATH, "")))
-			exit (0);
+			exit(0);
 	}
 	if (node_file)
 		ft_free_node(&node_file, opt);

@@ -6,7 +6,7 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:34:21 by jblazy            #+#    #+#             */
-/*   Updated: 2018/01/04 16:27:20 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/12 12:07:19 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,18 @@ t_node	*ft_readdir(t_opt *opt, t_path *path, DIR *current_dir)
 	{
 		if (current_file->d_name[0] == '.' && !(opt->opt_a))
 			continue;
+		errno = 0;
 		PATH_TMP = ft_addpath(CURRENT_PATH, current_file->d_name, 'N');
 		if (errno != 0)
 			ft_error(errno, path, opt);
-		if (!root)
-			root = ft_create_node(current_file, PATH_TMP, opt);
 		else
-			ft_place_node(&root,
-		ft_create_node(current_file, PATH_TMP, opt), opt);
+		{
+			if (!root)
+				root = ft_create_node(current_file, PATH_TMP, opt);
+			else
+				ft_place_node(&root,
+					ft_create_node(current_file, PATH_TMP, opt), opt);
+		}
 		ft_strdel(&PATH_TMP);
 	}
 	return (root);
@@ -43,7 +47,9 @@ t_node	*ft_ls(t_opt *opt, t_path *path)
 
 	errno = 0;
 	root = NULL;
-	if ((current_dir = opendir(CURRENT_PATH)))
+	if (path->dir_or_file == DIRECTORY && !ft_checksymlink(&root, opt, path))
+		root = NULL;
+	if (!root && (current_dir = opendir(CURRENT_PATH)))
 	{
 		if (path->dir_or_file != DIRECTORY)
 		{
@@ -57,10 +63,7 @@ t_node	*ft_ls(t_opt *opt, t_path *path)
 		return (ft_error2(path, opt));
 	ft_display_ls(opt, path, root);
 	if (opt->opt_upperr && path->dir_or_file == DIRECTORY)
-	{
-		path->sub_index = 1;
 		ft_recursivels(root, opt, path);
-	}
 	ft_free_tree(&root, opt);
 	return (NULL);
 }

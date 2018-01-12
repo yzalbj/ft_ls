@@ -16,6 +16,7 @@ void	ft_recursivels(t_node *tree, t_opt *opt, t_path *path)
 {
 	char	*tmp;
 
+	path->sub_index = 1;
 	if (opt->opt_r && tree && tree->right)
 		ft_recursivels(tree->right, opt, path);
 	else if (!opt->opt_r && tree && tree->left)
@@ -85,6 +86,8 @@ void	ft_place_node(t_node **root, t_node *node, t_opt *opt)
 	int		flag_time;
 
 	root_tmp = *root;
+	if (!node)
+		return ;
 	ft_nbandsize_elem(node, 0, 0);
 	while (root_tmp)
 	{
@@ -105,6 +108,9 @@ t_node	*ft_create_node(struct dirent *file, char *path, t_opt *opt)
 	node->left = NULL;
 	node->right = NULL;
 	if (!(node->stat = ft_create_stat(file, path, opt)))
+	{
+		ft_memdel((void **)&node);
 		return (NULL);
+	}
 	return (node);
 }

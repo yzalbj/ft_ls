@@ -6,7 +6,7 @@
 /*   By: jblazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:01:27 by jblazy            #+#    #+#             */
-/*   Updated: 2018/01/04 19:29:25 by jblazy           ###   ########.fr       */
+/*   Updated: 2018/01/09 11:33:12 by jblazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_sortargvascii(int argc, char **argv, int i)
 		if (!ft_strcmp(argv[i], "") || !ft_strcmp(argv[i + 1], ""))
 		{
 			ft_putendl("ft_ls: : No such file or directory");
-			exit (0);
+			exit(0);
 		}
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{

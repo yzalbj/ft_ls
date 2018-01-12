@@ -41,9 +41,15 @@ void	stat_optl1(char *path, t_stat *return_stat, struct stat *current_stat)
 	struct passwd	*current_user;
 
 	current_group = getgrgid(current_stat->st_gid);
-	return_stat->group = ft_strdup(current_group->gr_name);
+	if (current_group)
+		return_stat->group = ft_strdup(current_group->gr_name);
+	else
+		return_stat->group = ft_itoa(current_stat->st_gid);
 	current_user = getpwuid(current_stat->st_uid);
-	return_stat->user = ft_strdup(current_user->pw_name);
+	if (current_user)
+		return_stat->user = ft_strdup(current_user->pw_name);
+	else
+		return_stat->user = ft_itoa(current_stat->st_uid);
 	return_stat->nlink = current_stat->st_nlink;
 	ft_spaceafteruser(return_stat->user, 0);
 	ft_spaceaftergroup(return_stat->group, 0);
