@@ -14,6 +14,9 @@
 
 void	ft_sortargvascii(int argc, char **argv, int i)
 {
+	int	mem_i;
+
+	mem_i = i;
 	while (i < argc - 1)
 	{
 		if (!ft_strcmp(argv[i], "") || !ft_strcmp(argv[i + 1], ""))
@@ -24,7 +27,7 @@ void	ft_sortargvascii(int argc, char **argv, int i)
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			ft_swapstr(&argv[i], &argv[i + 1]);
-			i = 0;
+			i = mem_i;
 		}
 		i++;
 	}
