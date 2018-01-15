@@ -105,7 +105,7 @@ void	ft_display_ls(t_opt *opt, t_path *path, t_node *root)
 		ft_error(errno, path, opt);
 	else
 	{
-		if (opt->opt_l && root)
+		if (opt->opt_l && root && root->stat->mode[0] != 'l')
 		{
 			ft_putstr("total ");
 			ft_putnbr(ft_calc_blocks(0, 1));
